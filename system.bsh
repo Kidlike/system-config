@@ -1,0 +1,10 @@
+#!/bin/bash
+
+# TODO: add user selection for selinux mode
+sudo sed --in-place=.bak 's/^SELINUX\=.*/SELINUX\=disabled/g' /etc/selinux/config
+
+sudo dnf install -y chromium vim firewall-config firewall-applet transmission vlc dconf-editor
+
+wd=$(dirname $(readlink -f $0))
+bash "${wd}/rpm-fusion.bsh"
+

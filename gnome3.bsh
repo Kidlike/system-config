@@ -1,0 +1,45 @@
+#!/bin/bash
+
+# Basic config
+gsettings set org.gnome.desktop.interface clock-show-date true
+gsettings set org.gnome.desktop.wm.preferences button-layout 'appmenu:minimize,maximize,close'
+gsettings set org.gnome.desktop.input-sources sources "[('xkb', 'us'), ('xkb', 'gr')]"
+gsettings set org.gnome.desktop.input-sources xkb-options "['grp:shift_caps_toggle']"
+gsettings set org.gnome.desktop.peripherals.touchpad natural-scroll false
+gsettings set org.gnome.desktop.peripherals.mouse natural-scroll false
+
+# Ctr+Alt+t --> gnome-terminal
+gsettings set org.gnome.settings-daemon.plugins.media-keys.custom-keybinding:/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/open-terminal/ name "'open-terminal'"
+gsettings set org.gnome.settings-daemon.plugins.media-keys.custom-keybinding:/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/open-terminal/ binding "'<Control><Alt>t'"
+gsettings set org.gnome.settings-daemon.plugins.media-keys.custom-keybinding:/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/open-terminal/ command "'gnome-terminal'"
+
+keybinds=$(gsettings get org.gnome.settings-daemon.plugins.media-keys custom-keybindings | cut -d\[ -f2 | cut -d\] -f1)
+if [ -z "$keybinds" ]; then
+	gsettings set org.gnome.settings-daemon.plugins.media-keys custom-keybindings "['/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/open-terminal/']"
+else
+	if [ $(echo $keybinds | grep -c 'open-terminal') -eq 0 ]; then
+		gsettings set org.gnome.settings-daemon.plugins.media-keys custom-keybindings "[${keybinds},'/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/open-terminal/']"
+	fi
+fi
+
+# Install and enable extensions
+sudo dnf install gnome-tweak-tool gnome-shell-extension-pomodoro gnome-shell-extension-apps-menu gnome-shell-extension-places-menu gnome-shell-extension-dash-to-dock
+
+gnome-shell-extension-tool -e $(\ls -d /usr/share/gnome-shell/extensions/pomodoro\@* | rev | cut -d\/ -f 1 | rev)
+gnome-shell-extension-tool -e $(\ls -d /usr/share/gnome-shell/extensions/apps-menu\@* | rev | cut -d\/ -f 1 | rev)
+gnome-shell-extension-tool -e $(\ls -d /usr/share/gnome-shell/extensions/places-menu\@* | rev | cut -d\/ -f 1 | rev)
+gnome-shell-extension-tool -e $(\ls -d /usr/share/gnome-shell/extensions/dash-to-dock\@* | rev | cut -d\/ -f 1 | rev)
+
+# dash-to-dock settings
+gsettings set org.gnome.shell.extensions.dash-to-dock extend-height true
+gsettings set org.gnome.shell.extensions.dash-to-dock icon-size-fixed true
+gsettings set org.gnome.shell.extensions.dash-to-dock dash-max-icon-size 32
+gsettings set org.gnome.shell.extensions.dash-to-dock isolate-workspaces true
+gsettings set org.gnome.shell.extensions.dash-to-dock custom-theme-shrink true
+gsettings set org.gnome.shell.extensions.dash-to-dock custom-theme-running-dots true
+gsettings set org.gnome.shell.extensions.dash-to-dock custom-theme-customize-running-dots true
+gsettings set org.gnome.shell.extensions.dash-to-dock custom-theme-running-dots-border-width 0
+gsettings set org.gnome.shell.extensions.dash-to-dock custom-theme-running-dots-color '#ffffff'
+gsettings set org.gnome.shell.extensions.dash-to-dock click-action 'minimize-or-overview'
+gsettings set org.gnome.shell.extensions.dash-to-dock shift-click-action 'launch'
+

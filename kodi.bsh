@@ -1,0 +1,23 @@
+#!/bin/bash
+
+KODI_REMOTE_PORT=${KODI_REMOTE_PORT:?env var missing for \`firewalld\' rule. Set to -1 to skip firewalld configuration.}
+
+integer='^[0-9]+$'
+if ! [[ $KODI_REMOTE_PORT =~ $integer && $KODI_REMOTE_PORT -gt 1024 || "$KODI_REMOTE_PORT" == '-1' ]]; then
+    echo "KODI_REMOTE_PORT is not valid. Please provide a non-root TCP port or -1 to skip firewalld configuration."
+    exit 1
+fi
+
+# kodi
+echo "Installing Kodi"
+wd=$(dirname $(readlink -f $0))
+bash "${wd}/rpm-fusion.bsh"
+sudo dnf install -y kodi
+
+# firewall
+if [ ! "$KODI_REMOTE_PORT" == '-1' ]; then
+    firewall-cmd --permanent --new-service=kodi-remote
+    firewall-cmd --permanent --service=kodi-remote --add-port=${KODI_REMOTE_PORT}/tcp
+    firewall-cmd --permanent --zone=FedoraWorkstation --add-service=kodi-remote
+fi
+
