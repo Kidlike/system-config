@@ -1,0 +1,86 @@
+#!/bin/bash
+
+if [ -z "$GRUB2_BACKGROUND" ]; then
+	echo "WARN: Did not find 'GRUB2_BACKGROUND' env var. Will not set grub background."
+elif [ ! -r "$GRUB2_BACKGROUND" ]; then
+	echo "Could not read '$GRUB2_BACKGROUND'"
+	exit 1
+fi
+
+command -v xdpyinfo >/dev/null 2>&1
+if [ $? -ne 0 ]; then
+	echo "Required dependency not found: \`xdpyinfo'"
+	exit 1
+fi
+
+function ammend-grub() {
+	local key=$1
+	local value=$2
+
+        if [ $(grep -c "$key" /etc/default/grub) -eq 0 ]; then
+                echo "${key}=\"${value}\"" | sudo tee -a /etc/default/grub >/dev/null
+        else
+                sudo sed -Ei "s#^${key}=.*#${key}=\"${value}\"#g" /etc/default/grub
+        fi
+}
+
+echo ">> Installing dependencies (grub2-breeze-theme, ImageMagick)..."
+echo
+sudo dnf install -y grub2-breeze-theme ImageMagick
+
+resolution=$(xdpyinfo | awk '/dimensions/{print $2}')
+resolutionY=$(echo $resolution | cut -d\x -f2)
+
+if [ -r "$GRUB2_BACKGROUND" ]; then
+	imageResolution=$(identify -format "%wx%h" $GRUB2_BACKGROUND)
+	if [ "$imageResolution" != "$resolution" ]; then
+		echo "ERROR: Image size doesn't match screen size"
+		exit 1
+	fi
+fi
+
+ammend-grub GRUB_TIMEOUT ${GRUB_TIMEOUT:=5}
+ammend-grub GRUB_TERMINAL_OUTPUT ${GRUB_TERMINAL_OUTPUT:=gfxterm}
+ammend-grub GRUB_GFXMODE ${GRUB_GFXMODE:=auto}
+ammend-grub GRUB_THEME /boot/grub2/themes/breeze/theme.txt
+
+echo
+echo ">> Downloading fonts (~16MB)..."
+cd $(dirname $(readlink -f $0))
+mkdir .cache 2>/dev/null
+cd .cache
+[ ! -r codeface-fonts.tar.xz ] && curl -OLs https://github.com/chrissimpkins/codeface/releases/download/font-collection/codeface-fonts.tar.xz
+rm -rf fonts 2>/dev/null
+tar -xf codeface-fonts.tar.xz
+cd ..
+
+echo
+echo ">> Building theme..."
+themeDir="/boot/grub2/themes/$USER"
+sudo rm -rf $themeDir
+sudo cp -pr /boot/grub2/themes/breeze ${themeDir} 2>/dev/null
+
+if [ $resolutionY -eq 2160 ]; then
+	sudo grub2-mkfont --output=${themeDir}/not-courier-sans-28.pf2 --size=28 .cache/fonts/not-courier-sans/NotCourierSans.otf
+	sudo grub2-mkfont --output=${themeDir}/not-courier-sans-32.pf2 --size=32 .cache/fonts/not-courier-sans/NotCourierSans.otf
+	sudo grub2-mkfont --output=${themeDir}/not-courier-sans-64.pf2 --size=64 .cache/fonts/not-courier-sans/NotCourierSans.otf
+	sudo grub2-mkfont --output=${themeDir}/not-courier-sans-bold-32.pf2 --size=32 .cache/fonts/not-courier-sans/NotCourierSans-Bold.otf
+	sudo cp ../_resources/theme-2160p.txt ${themeDir}/theme.txt
+else
+	sudo grub2-mkfont --output=${themeDir}/not-courier-sans-14.pf2 --size=14 .cache/fonts/not-courier-sans/NotCourierSans.otf
+	sudo grub2-mkfont --output=${themeDir}/not-courier-sans-16.pf2 --size=16 .cache/fonts/not-courier-sans/NotCourierSans.otf
+	sudo grub2-mkfont --output=${themeDir}/not-courier-sans-32.pf2 --size=32 .cache/fonts/not-courier-sans/NotCourierSans.otf
+	sudo grub2-mkfont --output=${themeDir}/not-courier-sans-bold-16.pf2 --size=16 .cache/fonts/not-courier-sans/NotCourierSans-Bold.otf
+	sudo cp ../_resources/theme-1080p.txt ${themeDir}/theme.txt
+fi
+
+ammend-grub GRUB_THEME ${themeDir}/theme.txt
+
+if [ -r "$GRUB2_BACKGROUND" ]; then
+	sudo cp "$GRUB2_BACKGROUND" ${themeDir}/background.png
+fi
+
+echo
+sudo grub2-mkconfig -o /boot/grub2/grub.cfg
+sudo grub2-mkconfig -o /boot/efi/EFI/fedora/grub.cfg
+

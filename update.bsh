@@ -16,8 +16,8 @@ if [ -n $SDKMAN_DIR ]; then
 fi
 
 echo
-echo '>>> SYSTEM (dnf)'
-sudo dnf update
+echo '>>> dnf update'
+sudo dnf update -y
 
 echo '"sudo systemctl reboot" if necessary'
 
