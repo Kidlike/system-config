@@ -65,13 +65,13 @@ if [ $resolutionY -eq 2160 ]; then
 	sudo grub2-mkfont --output=${themeDir}/not-courier-sans-32.pf2 --size=32 .cache/fonts/not-courier-sans/NotCourierSans.otf
 	sudo grub2-mkfont --output=${themeDir}/not-courier-sans-64.pf2 --size=64 .cache/fonts/not-courier-sans/NotCourierSans.otf
 	sudo grub2-mkfont --output=${themeDir}/not-courier-sans-bold-32.pf2 --size=32 .cache/fonts/not-courier-sans/NotCourierSans-Bold.otf
-	sudo cp ../_resources/theme-2160p.txt ${themeDir}/theme.txt
+	sudo cp ../_resources/grub2/theme-2160p.txt ${themeDir}/theme.txt
 else
 	sudo grub2-mkfont --output=${themeDir}/not-courier-sans-14.pf2 --size=14 .cache/fonts/not-courier-sans/NotCourierSans.otf
 	sudo grub2-mkfont --output=${themeDir}/not-courier-sans-16.pf2 --size=16 .cache/fonts/not-courier-sans/NotCourierSans.otf
 	sudo grub2-mkfont --output=${themeDir}/not-courier-sans-32.pf2 --size=32 .cache/fonts/not-courier-sans/NotCourierSans.otf
 	sudo grub2-mkfont --output=${themeDir}/not-courier-sans-bold-16.pf2 --size=16 .cache/fonts/not-courier-sans/NotCourierSans-Bold.otf
-	sudo cp ../_resources/theme-1080p.txt ${themeDir}/theme.txt
+	sudo cp ../_resources/grub2/theme-1080p.txt ${themeDir}/theme.txt
 fi
 
 ammend-grub GRUB_THEME ${themeDir}/theme.txt
