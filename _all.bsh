@@ -1,9 +1,0 @@
-#!/bin/bash
-
-cd $(dirname $(readlink -f $0))
-
-bash system.bsh
-bash rpm-fusion.bsh
-bash gnome3.bsh
-bash kodi.bsh
-

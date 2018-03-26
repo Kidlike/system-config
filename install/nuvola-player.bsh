@@ -1,0 +1,23 @@
+#!/bin/bash
+
+if [ $(dnf info flatpak | grep -c 'Installed Packages') -ne 1 ]; then
+	sudo dnf install flatpak
+	echo
+	echo 'Run "sudo systemctl reboot" and then run this script again'
+	exit
+fi
+
+sudo dnf install xdg-desktop-portal-gtk xdg-desktop-portal
+
+# https://nuvola.tiliado.eu/nuvola/fedora/fc27/
+# If you used Nuvola in the past, it is necessary to purge the old installation. Otherwise, compatibility issues may occur.
+rm -rf ~/.cache/nuvolaplayer3
+rm -rf ~/.local/share/nuvolaplayer3
+rm -rf ~/.config/nuvolaplayer3
+rm -f ~/.local/share/applications/nuvolaplayer3*
+
+flatpak install --from https://nuvola.tiliado.eu/eu.tiliado.Nuvola.flatpakref
+flatpak install --from https://nuvola.tiliado.eu/eu.tiliado.NuvolaAppSpotify.flatpakref
+flatpak install --from https://nuvola.tiliado.eu/eu.tiliado.NuvolaAppSoundcloud.flatpakref
+flatpak install --from https://nuvola.tiliado.eu/eu.tiliado.NuvolaAppBandcamp.flatpakref
+

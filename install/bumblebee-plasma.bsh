@@ -1,0 +1,20 @@
+#!/bin/bash
+
+sudo dnf install @kde-desktop
+
+sudo cat >> /usr/share/xsessions/plasma-primus.desktop <<EOF
+[Desktop Entry]
+Encoding=UTF-8
+Type=XSession
+Exec=/usr/local/bin/kde-primus
+TryExec=/usr/local/bin/kde-primus
+Name=Plasma (Nvidia Optimus)
+Comment=KDE Desktop Environment running on discrete GPU
+EOF
+
+sudo cat >> /usr/local/bin/kde-primus <<EOF
+#!/bin/bash
+
+vblank_mode=0 /usr/bin/primusrun /usr/bin/startkde
+EOF
+

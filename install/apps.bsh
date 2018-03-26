@@ -1,0 +1,3 @@
+#!/bin/bash
+
+sudo dnf install -y chromium vim meld firewall-config transmission vlc dconf-editor gnome-tweak-tool

@@ -9,7 +9,7 @@ if ! [[ $KODI_REMOTE_PORT =~ $integer && $KODI_REMOTE_PORT -gt 1024 || "$KODI_RE
 fi
 
 # kodi
-echo "Installing Kodi"
+echo ">> Installing Kodi"
 wd=$(dirname $(readlink -f $0))
 bash "${wd}/rpm-fusion.bsh"
 sudo dnf install -y kodi

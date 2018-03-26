@@ -1,0 +1,18 @@
+#!/bin/bash
+
+SELINUX_MODE=${SELINUX_MODE:?env var missing for selinux. Set to (enforcing|permissive|disabled)}
+
+if [[ ! "${SELINUX_MODE}" =~ ^(enforcing|permissive|disabled)$ ]]; then
+	echo "Invalid SELINUX_MODE. Set to (enforcing|permissive|disabled)"
+	exit 1
+fi
+
+# TODO if changed mark for reboot.
+sudo sed --in-place=.bak "s/^SELINUX\=.*/SELINUX\=${SELINUX_MODE}/g" /etc/selinux/config
+
+sudo dnf install -y chromium vim firewall-config firewall-applet transmission vlc dconf-editor
+
+# Install rpm-fusion
+wd=$(dirname $(readlink -f $0))
+bash "${wd}/rpm-fusion.bsh"
+

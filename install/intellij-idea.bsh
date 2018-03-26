@@ -1,0 +1,68 @@
+#!/bin/bash
+
+INSTALL_DIR=/opt/intellij
+SHARE_DIR=/opt/share
+TMP_DIR=${HOME}/.cache/install-intellij-idea-latest
+
+command -v xmlstarlet >/dev/null
+[ $? -ne 0 ] && sudo dnf install -y xmlstarlet
+
+mkdir "$TMP_DIR" 2>/dev/null
+cd "$TMP_DIR"
+echo "Retrieving versions metadata..."
+curl -s https://www.jetbrains.com/updates/updates.xml -o ij.xml
+versionTuple=$(xmlstarlet sel -t -m "/products/product[@name='IntelliJ IDEA']/channel[@id='IDEA_Release']/build" -v '@version' -o ':' -v '@fullNumber' -n ij.xml 2>/dev/null | sort -V | tail -1)
+version=$(echo $versionTuple | cut -d\: -f1)
+versionNumber=$(echo $versionTuple | cut -d\: -f2)
+
+if [ -z "$version" ]; then
+	echo 'Could not determine latest IntelliJ IDEA version.'
+	exit 1
+fi
+
+name=ideaIU-${version}.tar.gz
+rm -f !\($name\)
+[ ! -r $name ] && wget https://download.jetbrains.com/idea/$name
+wget https://download.jetbrains.com/idea/${name}.sha256 -O ${name}.sha256
+echo 'Validating downloaded file...'
+sha256sum -c ${name}.sha256
+if [ $? -ne 0 ]; then
+	echo "Corrupted file: ${name}"
+	exit 1
+fi
+
+sudo mkdir "${INSTALL_DIR}" 2>/dev/null
+
+echo
+echo "Installing: '${INSTALL_DIR}/idea-IU-${versionNumber}'..."
+sudo rm -rf "${INSTALL_DIR}/idea-IU-${versionNumber}"
+sudo tar --directory="${INSTALL_DIR}" -xf ${name}
+sudo ln -sf "${INSTALL_DIR}/idea-IU-${versionNumber}" "${INSTALL_DIR}/latest"
+
+sudo mkdir "${SHARE_DIR}/bin" 2>/dev/null
+sudo ln -sf "${INSTALL_DIR}/latest/bin/idea.sh" "${SHARE_DIR}/bin/intellij-idea"
+
+sudo mkdir "${SHARE_DIR}/applications" 2>/dev/null
+sudo bash -c "cat > '${SHARE_DIR}/applications/intellij-idea.desktop' <<EOF
+[Desktop Entry]
+Type=Application
+Encoding=UTF-8
+Name=IntelliJ IDEA
+Comment=IntelliJ IDEA
+Exec=${INSTALL_DIR}/latest/bin/idea.sh
+Icon=${INSTALL_DIR}/latest/bin/idea.png
+Terminal=false
+Keywords=intellij;idea;
+EOF"
+
+ln -sf "${SHARE_DIR}/applications/intellij-idea.desktop" "${HOME}/.local/share/applications/intellij-idea.desktop"
+
+# TODO conditionally add to ~/.bashrc
+# PATH=$PATH:/opt/share/bin
+
+echo
+echo 'Installation finished!'
+echo
+echo 'Add the following to "~/.bashrc" for an "intellij-idea" command.'
+echo 'PATH=$PATH:/opt/share/bin'
+echo
