@@ -1,0 +1,61 @@
+title-text: ""
+title-font: "Not Courier Sans 9"
+message-font: "Not Courier Sans 9"
+message-color: "#7f8c8d"
+desktop-image: "background.png"
+
++ boot_menu {
+    top = 5%
+    left = 5%
+    width = 100%
+    height = 400
+    # Icon
+    icon_width = 4
+    icon_height = 0
+    # Item
+    item_height = 22
+    item_padding = 1
+    item_icon_space = 0
+    item_spacing = 1
+    item_font =  "Not Courier Sans 11"
+    item_color = "#7f8c8d"
+    selected_item_font = "Not Courier Sans Bold 11"
+    selected_item_color = "#ffffff"
+}
+
++ vbox {
+    # 120 = (four lines + progress bar) = (19*4 + 21*2)
+    top = 100%-120
+    left = 5%
+    width = 100%
+    + label { width = 100% align = "left" color = "#7f8c8d" font = "Not Courier Sans 9" text = "[Enter] Boot Selected" }
+    + label { width = 100% align = "left" color = "#7f8c8d" font = "Not Courier Sans 9" text = "[Up and Down] Navigation" }
+    + label { width = 100% align = "left" color = "#7f8c8d" font = "Not Courier Sans 9" text = "[E] Edit Selected" }
+    + label { width = 100% align = "left" color = "#7f8c8d" font = "Not Courier Sans 9" text = "[C] GRUB Command Line" }
+}
+
++ progress_bar {
+    id = "__timeout__"
+    top = 100%-21
+    left = 0
+    width = 100%
+    height = 21
+    show_text = false
+    bar_style = "progress_bar_*.png"
+    highlight_style = "progress_bar_hl_*.png"
+}
+
++ progress_bar {
+    id = "__timeout__"
+    top = 100%-21
+    left = 0
+    width = 100%
+    height = 13
+    show_text = true
+    font = "Not Courier Sans 9"
+    text_color = "#7f8c8d"
+    align = "center"
+    text = "@TIMEOUT_NOTIFICATION_MIDDLE@"
+    bar_style = "progress_bar2_*.png"
+}
+
