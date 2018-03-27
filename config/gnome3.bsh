@@ -37,7 +37,7 @@ echo ">> Installing extensions from sources..."
 cd $(dirname $(readlink -f $0))
 mkdir -p "${HOME}/.local/share/gnome-shell/extensions/" 2>/dev/null
 rm -rf "${HOME}/.local/share/gnome-shell/extensions/pixel-saver@deadalnix.me"
-ln -sf "$(realpath ../libs/pixel-saver/pixel-saver@deadalnix.me)" "${HOME}/.local/share/gnome-shell/extensions/pixel-saver@deadalnix.me"
+ln -sf "$(realpath ../_libs/pixel-saver/pixel-saver@deadalnix.me)" "${HOME}/.local/share/gnome-shell/extensions/pixel-saver@deadalnix.me"
 
 # Configure gnome-shell-extension: dash-to-dock
 gsettings set org.gnome.shell.extensions.dash-to-dock extend-height true
