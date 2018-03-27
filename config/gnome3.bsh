@@ -1,6 +1,8 @@
 #!/bin/bash
 
 # Basic config
+echo
+echo ">> Configuring gnome3..."
 gsettings set org.gnome.desktop.interface clock-show-date true
 gsettings set org.gnome.desktop.wm.preferences button-layout 'appmenu:minimize,maximize,close'
 gsettings set org.gnome.desktop.input-sources sources "[('xkb', 'us'), ('xkb', 'gr')]"
@@ -22,15 +24,22 @@ else
 	fi
 fi
 
-# Install and enable extensions
-sudo dnf install gnome-tweak-tool gnome-shell-extension-pomodoro gnome-shell-extension-apps-menu gnome-shell-extension-places-menu gnome-shell-extension-dash-to-dock
+echo
+echo ">> Installing dependencies..."
+sudo dnf install gnome-tweak-tool xorg-x11-utils
 
-gnome-shell-extension-tool -e $(\ls -d /usr/share/gnome-shell/extensions/pomodoro\@* | rev | cut -d\/ -f 1 | rev)
-gnome-shell-extension-tool -e $(\ls -d /usr/share/gnome-shell/extensions/apps-menu\@* | rev | cut -d\/ -f 1 | rev)
-gnome-shell-extension-tool -e $(\ls -d /usr/share/gnome-shell/extensions/places-menu\@* | rev | cut -d\/ -f 1 | rev)
-gnome-shell-extension-tool -e $(\ls -d /usr/share/gnome-shell/extensions/dash-to-dock\@* | rev | cut -d\/ -f 1 | rev)
+echo
+echo ">> Installing extensions from dnf..."
+sudo dnf install gnome-shell-extension-pomodoro gnome-shell-extension-apps-menu gnome-shell-extension-places-menu gnome-shell-extension-dash-to-dock
 
-# dash-to-dock settings
+echo
+echo ">> Installing extensions from sources..."
+cd $(dirname $(readlink -f $0))
+mkdir -p "${HOME}/.local/share/gnome-shell/extensions/" 2>/dev/null
+rm -rf "${HOME}/.local/share/gnome-shell/extensions/pixel-saver@deadalnix.me"
+ln -sf "$(realpath ../libs/pixel-saver/pixel-saver@deadalnix.me)" "${HOME}/.local/share/gnome-shell/extensions/pixel-saver@deadalnix.me"
+
+# Configure gnome-shell-extension: dash-to-dock
 gsettings set org.gnome.shell.extensions.dash-to-dock extend-height true
 gsettings set org.gnome.shell.extensions.dash-to-dock icon-size-fixed true
 gsettings set org.gnome.shell.extensions.dash-to-dock dash-max-icon-size 32
@@ -43,3 +52,11 @@ gsettings set org.gnome.shell.extensions.dash-to-dock custom-theme-running-dots-
 gsettings set org.gnome.shell.extensions.dash-to-dock click-action 'minimize-or-overview'
 gsettings set org.gnome.shell.extensions.dash-to-dock shift-click-action 'launch'
 
+
+echo
+echo ">> Enabling gnome-shell-extensions..."
+gnome-shell-extension-tool -e $(\ls -d /usr/share/gnome-shell/extensions/pomodoro\@* | rev | cut -d\/ -f 1 | rev)
+gnome-shell-extension-tool -e $(\ls -d /usr/share/gnome-shell/extensions/apps-menu\@* | rev | cut -d\/ -f 1 | rev)
+gnome-shell-extension-tool -e $(\ls -d /usr/share/gnome-shell/extensions/places-menu\@* | rev | cut -d\/ -f 1 | rev)
+gnome-shell-extension-tool -e $(\ls -d /usr/share/gnome-shell/extensions/dash-to-dock\@* | rev | cut -d\/ -f 1 | rev)
+gnome-shell-extension-tool -e 'pixel-saver@deadalnix.me'
