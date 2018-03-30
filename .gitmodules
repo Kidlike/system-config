@@ -1,3 +1,6 @@
 [submodule "libs/pixel-saver"]
 	path = _libs/pixel-saver
 	url = https://github.com/deadalnix/pixel-saver.git
+[submodule "_libs/gse-sound-output-device-chooser"]
+	path = _libs/gse-sound-output-device-chooser
+	url = https://github.com/kgshank/gse-sound-output-device-chooser

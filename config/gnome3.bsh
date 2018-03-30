@@ -36,8 +36,13 @@ echo
 echo ">> Installing extensions from sources..."
 cd $(dirname $(readlink -f $0))
 mkdir -p "${HOME}/.local/share/gnome-shell/extensions/" 2>/dev/null
+
 rm -rf "${HOME}/.local/share/gnome-shell/extensions/pixel-saver@deadalnix.me"
 ln -sf "$(realpath ../_libs/pixel-saver/pixel-saver@deadalnix.me)" "${HOME}/.local/share/gnome-shell/extensions/pixel-saver@deadalnix.me"
+
+rm -rf "${HOME}/.local/share/gnome-shell/extensions/sound-output-device-chooser@kgshank.net"
+ln -sf "$(realpath ../_libs/gse-sound-output-device-chooser/sound-output-device-chooser@kgshank.net)" "${HOME}/.local/share/gnome-shell/extensions/sound-output-device-chooser@kgshank.net"
+
 
 # Configure gnome-shell-extension: dash-to-dock
 gsettings set org.gnome.shell.extensions.dash-to-dock extend-height true
@@ -60,3 +65,4 @@ gnome-shell-extension-tool -e $(\ls -d /usr/share/gnome-shell/extensions/apps-me
 gnome-shell-extension-tool -e $(\ls -d /usr/share/gnome-shell/extensions/places-menu\@* | rev | cut -d\/ -f 1 | rev)
 gnome-shell-extension-tool -e $(\ls -d /usr/share/gnome-shell/extensions/dash-to-dock\@* | rev | cut -d\/ -f 1 | rev)
 gnome-shell-extension-tool -e 'pixel-saver@deadalnix.me'
+gnome-shell-extension-tool -e 'sound-output-device-chooser@kgshank.net'
