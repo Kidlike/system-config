@@ -9,9 +9,9 @@ sdk version >/dev/null 2>&1
 
 source "$HOME/.sdkman/bin/sdkman-init.sh"
 
-java8version=$(sdk list java | tr -d ' ' | egrep '^8' | grep -i oracle | sort -V | tail -1)
+java8version=$(sdk list java | grep oracle | cut -c 6- | egrep '^8\.' | sort -V | tail -1)
 sdk install java $java8version
 
-maven3version=$($ sdk list maven | tr -d ' ' | egrep '^3' | sort -V | tail -1)
+maven3version=$(sdk list maven | cut -c 6- | egrep '^3' | sort -V | tail -1)
 sdk install maven $maven3version
 
