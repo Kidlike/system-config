@@ -1,0 +1,13 @@
+#!/bin/bash
+
+WD="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+
+sudo rm -rf /opt/kubectl/
+sudo mkdir /opt/kubectl/
+cd /opt/kubectl/
+
+sudo curl -LO https://storage.googleapis.com/kubernetes-release/release/$(curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt)/bin/linux/amd64/kubectl
+
+sudo chmod +x ./kubectl
+sudo ln -sf /opt/kubectl/kubectl /opt/share/bin/kubectl
+

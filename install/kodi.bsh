@@ -1,5 +1,7 @@
 #!/bin/bash
 
+WD="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+
 KODI_REMOTE_PORT=${KODI_REMOTE_PORT:?env var missing for \`firewalld\' rule. Set to -1 to skip firewalld configuration.}
 
 integer='^[0-9]+$'
@@ -9,9 +11,7 @@ if ! [[ $KODI_REMOTE_PORT =~ $integer && $KODI_REMOTE_PORT -gt 1024 || "$KODI_RE
 fi
 
 # kodi
-echo ">> Installing Kodi"
-wd=$(dirname $(readlink -f $0))
-bash "${wd}/rpm-fusion.bsh"
+bash "${WD}/rpm-fusion.bsh"
 sudo dnf install -y kodi
 
 # firewall

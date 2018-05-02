@@ -1,0 +1,16 @@
+#!/bin/bash
+
+WD="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+
+sudo dnf remove docker docker-client \
+docker-client-latest docker-common docker-latest docker-latest-logrotate \
+docker-logrotate docker-selinux docker-engine-selinux docker-engine
+
+DOCKER_INST="$(mktemp)-get-docker.sh"
+curl -fsSL get.docker.com -o ${DOCKER_INST}
+sudo sh ${DOCKER_INST}
+
+sudo usermod -aG docker ${USER}
+
+rm ${DOCKER_INST}
+

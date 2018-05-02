@@ -1,0 +1,15 @@
+#!/bin/bash
+
+WD="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+
+mkdir ~/.fonts/ 2>/dev/null
+cd ~/.fonts/
+
+if [ ! -r codeface-fonts.tar.xz ]; then
+	echo ">> Downloading fonts..."
+	curl -OLs https://github.com/chrissimpkins/codeface/releases/download/font-collection/codeface-fonts.tar.xz
+fi
+
+echo ">> Installing fonts..."
+tar --strip-components=1 -xf codeface-fonts.tar.xz fonts
+

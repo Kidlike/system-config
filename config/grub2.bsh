@@ -1,5 +1,7 @@
 #!/bin/bash
 
+WD="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+
 if [ -z "$GRUB2_BACKGROUND" ]; then
 	echo "WARN: Did not find 'GRUB2_BACKGROUND' env var. Will not set grub background."
 elif [ ! -r "$GRUB2_BACKGROUND" ]; then
@@ -44,15 +46,11 @@ ammend-grub GRUB_TERMINAL_OUTPUT ${GRUB_TERMINAL_OUTPUT:=gfxterm}
 ammend-grub GRUB_GFXMODE ${GRUB_GFXMODE:=auto}
 ammend-grub GRUB_THEME /boot/grub2/themes/breeze/theme.txt
 
+
 echo
 echo ">> Downloading fonts (~16MB)..."
-cd $(dirname $(readlink -f $0))
-mkdir .cache 2>/dev/null
-cd .cache
-[ ! -r codeface-fonts.tar.xz ] && curl -OLs https://github.com/chrissimpkins/codeface/releases/download/font-collection/codeface-fonts.tar.xz
-rm -rf fonts 2>/dev/null
-tar -xf codeface-fonts.tar.xz
-cd ..
+cd "${WD}"
+bash "../install/fonts.bsh"
 
 echo
 echo ">> Building theme..."

@@ -1,5 +1,7 @@
 #!/bin/bash
 
+WD="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+
 echo ">> Checking for sdkman installation..."
 [ -r "$HOME/.sdkman/bin/sdkman-init.sh" ] && source "$HOME/.sdkman/bin/sdkman-init.sh"
 sdk version >/dev/null 2>&1

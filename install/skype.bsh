@@ -1,0 +1,9 @@
+#!/bin/bash
+
+WD="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+
+wget -O /tmp/skypeforlinux-64.rpm https://go.skype.com/skypeforlinux-64.rpm
+
+sudo dnf install -y /tmp/skypeforlinux-64.rpm
+
+rm -f /tmp/skypeforlinux-64.rpm

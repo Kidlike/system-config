@@ -1,0 +1,9 @@
+#!/bin/bash
+
+WD="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+
+wget -O /tmp/viber.rpm https://download.cdn.viber.com/desktop/Linux/viber.rpm
+
+sudo dnf install -y /tmp/viber.rpm
+
+rm -f /tmp/viber.rpm

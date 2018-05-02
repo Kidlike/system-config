@@ -1,5 +1,7 @@
 #!/bin/bash
 
+WD="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+
 SELINUX_MODE=${SELINUX_MODE:?env var missing for selinux. Set to (enforcing|permissive|disabled)}
 
 if [[ ! "${SELINUX_MODE}" =~ ^(enforcing|permissive|disabled)$ ]]; then
@@ -13,6 +15,5 @@ sudo sed --in-place=.bak "s/^SELINUX\=.*/SELINUX\=${SELINUX_MODE}/g" /etc/selinu
 sudo dnf install -y chromium vim firewall-config firewall-applet transmission vlc dconf-editor
 
 # Install rpm-fusion
-wd=$(dirname $(readlink -f $0))
-bash "${wd}/rpm-fusion.bsh"
+bash "${WD}/rpm-fusion.bsh"
 

@@ -1,11 +1,12 @@
 #!/bin/bash
 
+WD="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+
 INSTALL_DIR=/opt/intellij
 SHARE_DIR=/opt/share
 TMP_DIR=${HOME}/.cache/install-intellij-idea-latest
 
-command -v xmlstarlet >/dev/null
-[ $? -ne 0 ] && sudo dnf install -y xmlstarlet
+sudo dnf install -y xmlstarlet
 
 mkdir "$TMP_DIR" 2>/dev/null
 cd "$TMP_DIR"
@@ -37,6 +38,7 @@ echo
 echo "Installing: '${INSTALL_DIR}/idea-IU-${versionNumber}'..."
 sudo rm -rf "${INSTALL_DIR}/idea-IU-${versionNumber}"
 sudo tar --directory="${INSTALL_DIR}" -xf ${name}
+sudo rm -f "${INSTALL_DIR}/latest"
 sudo ln -sf "${INSTALL_DIR}/idea-IU-${versionNumber}" "${INSTALL_DIR}/latest"
 
 sudo mkdir "${SHARE_DIR}/bin" 2>/dev/null

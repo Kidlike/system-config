@@ -1,0 +1,13 @@
+[Unit]
+Description=Ungit - Git Web UI
+Requires=network.target
+
+[Service]
+User=stefanos
+Group=<GROUP>
+WorkingDirectory=~
+Type=simple
+ExecStart=/bin/bash -c '. "$0" && exec "$@"' <HOME>/.bashrc ungit
+
+[Install]
+WantedBy=graphical.target

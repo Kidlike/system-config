@@ -1,10 +1,17 @@
 #!/bin/bash
 
+WD="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+
 # Basic config
 echo
 echo ">> Configuring gnome3..."
+gsettings set org.gnome.settings-daemon.plugins.xsettings antialiasing 'rgba'
+gsettings set org.gnome.shell.app-switcher current-workspace-only true
+gsettings set org.gnome.settings-daemon.plugins.xsettings overrides "{'Gtk/ShellShowsAppMenu': <0>}"
 gsettings set org.gnome.desktop.interface clock-show-date true
+gsettings set org.gnome.desktop.calendar show-weekdate true
 gsettings set org.gnome.desktop.wm.preferences button-layout 'appmenu:minimize,maximize,close'
+gsettings set org.gnome.desktop.wm.preferences titlebar-font 'Comfortaa Bold 11'
 gsettings set org.gnome.desktop.input-sources sources "[('xkb', 'us'), ('xkb', 'gr')]"
 gsettings set org.gnome.desktop.input-sources xkb-options "['grp:shift_caps_toggle']"
 gsettings set org.gnome.desktop.peripherals.touchpad natural-scroll false
@@ -25,16 +32,13 @@ else
 fi
 
 echo
-echo ">> Installing dependencies..."
-sudo dnf install gnome-tweak-tool xorg-x11-utils
-
-echo
-echo ">> Installing extensions from dnf..."
-sudo dnf install gnome-shell-extension-pomodoro gnome-shell-extension-apps-menu gnome-shell-extension-places-menu gnome-shell-extension-dash-to-dock
+sudo dnf install -y gnome-tweak-tool xorg-x11-utils \
+gnome-shell-extension-pomodoro gnome-shell-extension-apps-menu \
+gnome-shell-extension-places-menu gnome-shell-extension-dash-to-dock
 
 echo
 echo ">> Installing extensions from sources..."
-cd $(dirname $(readlink -f $0))
+cd "${WD}"
 mkdir -p "${HOME}/.local/share/gnome-shell/extensions/" 2>/dev/null
 
 rm -rf "${HOME}/.local/share/gnome-shell/extensions/pixel-saver@deadalnix.me"

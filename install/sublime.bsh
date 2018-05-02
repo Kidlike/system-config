@@ -1,0 +1,20 @@
+#!/bin/bash
+
+WD="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+
+do_install=1
+if [ -r /usr/share/applications/sublime_text.desktop ]; then
+	INSTALL_PATH=$(grep Exec /usr/share/applications/sublime_text.desktop | head -1 | cut -d\= -f2 | cut -d\  -f1)
+	if [ -r ${INSTALL_PATH} ]; then
+		echo "Sublime already installed at '${INSTALL_PATH}'"
+		do_install=0
+	fi
+fi
+
+if [ $do_install -eq 1 ]; then
+	echo ">> Installing sublime..."
+	sudo rpm -v --import https://download.sublimetext.com/sublimehq-rpm-pub.gpg
+	sudo dnf config-manager --add-repo https://download.sublimetext.com/rpm/stable/x86_64/sublime-text.repo
+	sudo dnf install -y sublime-text
+fi
+
