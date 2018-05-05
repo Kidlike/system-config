@@ -17,6 +17,11 @@ gsettings set org.gnome.desktop.input-sources xkb-options "['grp:shift_caps_togg
 gsettings set org.gnome.desktop.peripherals.touchpad natural-scroll false
 gsettings set org.gnome.desktop.peripherals.mouse natural-scroll false
 
+gsettings set org.gnome.settings-daemon.plugins.color night-light-schedule-automatic false
+gsettings set org.gnome.settings-daemon.plugins.color night-light-enabled true
+gsettings set org.gnome.settings-daemon.plugins.color night-light-schedule-from '22.0'
+gsettings set org.gnome.settings-daemon.plugins.color night-light-schedule-to '8.0'
+
 # Ctr+Alt+t --> gnome-terminal
 gsettings set org.gnome.settings-daemon.plugins.media-keys.custom-keybinding:/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/open-terminal/ name "'open-terminal'"
 gsettings set org.gnome.settings-daemon.plugins.media-keys.custom-keybinding:/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/open-terminal/ binding "'<Control><Alt>t'"
