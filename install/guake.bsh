@@ -1,10 +1,16 @@
 #!/bin/bash
 
+WD="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+
+bash $WD/tmux.bsh
+
+echo ">> Installing guake..."
 sudo dnf install -y guake
 
+gconftool-2 --set /apps/guake/general/default_shell --type=string '/usr/bin/tmux-2'
 gconftool-2 --set /apps/guake/general/use_trayicon --type=bool false
 gconftool-2 --set /apps/guake/general/use_popup --type=bool false
-gconftool-2 --set /apps/guake/general/use_login_shell --type=bool true
+gconftool-2 --set /apps/guake/general/use_login_shell --type=bool false
 gconftool-2 --set /apps/guake/general/use_scrollbar --type=bool false
 gconftool-2 --set /apps/guake/general/window_tabbar --type=bool false
 gconftool-2 --set /apps/guake/general/use_audible_bell --type=bool false
@@ -41,3 +47,7 @@ gconftool-2 --set /apps/guake/keybindings/local/increase_height --type=string 'd
 gconftool-2 --set /apps/guake/keybindings/local/move_tab_right --type=string 'disabled'
 gconftool-2 --set /apps/guake/keybindings/local/switch_tab10 --type=string 'disabled'
 gconftool-2 --set /apps/guake/keybindings/local/zoom_out --type=string 'disabled'
+
+mkdir -p "$HOME/.config/autostart" 2>/dev/null
+cp -f /usr/share/applications/guake.desktop "$HOME/.config/autostart/guake.desktop"
+

@@ -1,0 +1,17 @@
+#!/bin/bash
+
+WD="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+
+echo ">> Installing tmux..."
+sudo dnf install -y tmux
+
+TMUX_SHELL='/usr/bin/tmux-2'
+
+sudo cp "${WD}/../_resources/tmux/tmux-2" "${TMUX_SHELL}"
+
+sudo chmod +x "${TMUX_SHELL}"
+
+if [ $(grep -c 'tmux-2' /etc/shells) -eq 0 ]; then
+	echo ">> Installing new shell:"
+	echo "${TMUX_SHELL}" | sudo tee -a /etc/shells
+fi
