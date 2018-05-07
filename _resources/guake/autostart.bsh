@@ -1,0 +1,8 @@
+#!/bin/bash
+
+WD="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+
+bash $WD/gconf-settings.bsh
+
+exec guake "$@"
+

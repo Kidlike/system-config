@@ -1,0 +1,9 @@
+#!/bin/bash
+
+WD="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+
+sudo dnf install -y clipit
+
+mkdir -p "$HOME/.config/autostart" 2>/dev/null
+cp -f /usr/share/applications/clipit.desktop "$HOME/.config/autostart/clipit.desktop"
+

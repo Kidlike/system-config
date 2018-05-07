@@ -1,0 +1,43 @@
+#!/bin/bash
+
+gconftool-2 --set /apps/guake/general/default_shell --type=string '/usr/bin/tmux-2'
+gconftool-2 --set /apps/guake/general/use_trayicon --type=bool false
+gconftool-2 --set /apps/guake/general/use_popup --type=bool false
+gconftool-2 --set /apps/guake/general/use_login_shell --type=bool false
+gconftool-2 --set /apps/guake/general/use_scrollbar --type=bool false
+gconftool-2 --set /apps/guake/general/window_tabbar --type=bool false
+gconftool-2 --set /apps/guake/general/use_audible_bell --type=bool false
+gconftool-2 --set /apps/guake/general/prompt_on_quit --type=bool false
+gconftool-2 --set /apps/guake/general/start_fullscreen --type=bool true
+gconftool-2 --set /apps/guake/keybindings/global/show_hide --type=string F1
+gconftool-2 --set /apps/guake/keybindings/local/toggle_fullscreen --type=string disabled
+gconftool-2 --set /apps/guake/keybindings/local/increase_transparency --type=string 'disabled'
+gconftool-2 --set /apps/guake/keybindings/local/zoom_in --type=string 'disabled'
+gconftool-2 --set /apps/guake/keybindings/local/move_tab_left --type=string 'disabled'
+gconftool-2 --set /apps/guake/keybindings/local/clipboard_paste --type=string '<Primary><Shift>v'
+gconftool-2 --set /apps/guake/keybindings/local/new_tab --type=string 'disabled'
+gconftool-2 --set /apps/guake/keybindings/local/search_on_web --type=string 'disabled'
+gconftool-2 --set /apps/guake/keybindings/local/switch_tab_last --type=string 'disabled'
+gconftool-2 --set /apps/guake/keybindings/local/close_tab --type=string 'disabled'
+gconftool-2 --set /apps/guake/keybindings/local/rename_current_tab --type=string 'disabled'
+gconftool-2 --set /apps/guake/keybindings/local/previous_tab --type=string 'disabled'
+gconftool-2 --set /apps/guake/keybindings/local/next_tab --type=string 'disabled'
+gconftool-2 --set /apps/guake/keybindings/local/toggle_hide_on_lose_focus --type=string 'disabled'
+gconftool-2 --set /apps/guake/keybindings/local/quit --type=string 'disabled'
+gconftool-2 --set /apps/guake/keybindings/local/switch_tab1 --type=string 'disabled'
+gconftool-2 --set /apps/guake/keybindings/local/zoom_in_alt --type=string 'disabled'
+gconftool-2 --set /apps/guake/keybindings/local/switch_tab3 --type=string 'disabled'
+gconftool-2 --set /apps/guake/keybindings/local/switch_tab4 --type=string 'disabled'
+gconftool-2 --set /apps/guake/keybindings/local/switch_tab2 --type=string 'disabled'
+gconftool-2 --set /apps/guake/keybindings/local/switch_tab5 --type=string 'disabled'
+gconftool-2 --set /apps/guake/keybindings/local/switch_tab6 --type=string 'disabled'
+gconftool-2 --set /apps/guake/keybindings/local/switch_tab7 --type=string 'disabled'
+gconftool-2 --set /apps/guake/keybindings/local/decrease_height --type=string 'disabled'
+gconftool-2 --set /apps/guake/keybindings/local/switch_tab9 --type=string 'disabled'
+gconftool-2 --set /apps/guake/keybindings/local/switch_tab8 --type=string 'disabled'
+gconftool-2 --set /apps/guake/keybindings/local/toggle_transparency --type=string 'disabled'
+gconftool-2 --set /apps/guake/keybindings/local/increase_height --type=string 'disabled'
+gconftool-2 --set /apps/guake/keybindings/local/move_tab_right --type=string 'disabled'
+gconftool-2 --set /apps/guake/keybindings/local/switch_tab10 --type=string 'disabled'
+gconftool-2 --set /apps/guake/keybindings/local/zoom_out --type=string 'disabled'
+
