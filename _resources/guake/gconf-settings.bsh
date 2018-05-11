@@ -9,7 +9,7 @@ gconftool-2 --set /apps/guake/general/window_tabbar --type=bool false
 gconftool-2 --set /apps/guake/general/use_audible_bell --type=bool false
 gconftool-2 --set /apps/guake/general/prompt_on_quit --type=bool false
 gconftool-2 --set /apps/guake/general/start_fullscreen --type=bool true
-gconftool-2 --set /apps/guake/general/window_losefocus --type=bool true
+gconftool-2 --set /apps/guake/general/window_losefocus --type=bool false
 
 gconftool-2 --set /apps/guake/style/background/transparency --type=int 15
 
