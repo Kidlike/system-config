@@ -5,6 +5,7 @@ WD="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 # Basic config
 echo
 echo ">> Configuring gnome3..."
+gsettings set org.gnome.desktop.interface show-battery-percentage true
 gsettings set org.gnome.settings-daemon.plugins.xsettings antialiasing 'rgba'
 gsettings set org.gnome.shell.app-switcher current-workspace-only true
 gsettings set org.gnome.settings-daemon.plugins.xsettings overrides "{'Gtk/ShellShowsAppMenu': <0>}"
