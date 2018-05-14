@@ -5,23 +5,34 @@ WD="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 # Basic config
 echo
 echo ">> Configuring gnome3..."
+
+# Appearance
 gsettings set org.gnome.desktop.interface show-battery-percentage true
-gsettings set org.gnome.settings-daemon.plugins.xsettings antialiasing 'rgba'
-gsettings set org.gnome.shell.app-switcher current-workspace-only true
 gsettings set org.gnome.settings-daemon.plugins.xsettings overrides "{'Gtk/ShellShowsAppMenu': <0>}"
 gsettings set org.gnome.desktop.interface clock-show-date true
 gsettings set org.gnome.desktop.calendar show-weekdate true
 gsettings set org.gnome.desktop.wm.preferences button-layout 'appmenu:minimize,maximize,close'
 gsettings set org.gnome.desktop.wm.preferences titlebar-font 'Comfortaa Bold 11'
+gsettings set org.gnome.settings-daemon.plugins.xsettings antialiasing 'rgba'
+
+# functional
+gsettings set org.gnome.shell.app-switcher current-workspace-only true
 gsettings set org.gnome.desktop.input-sources sources "[('xkb', 'us'), ('xkb', 'gr')]"
 gsettings set org.gnome.desktop.input-sources xkb-options "['grp:shift_caps_toggle']"
 gsettings set org.gnome.desktop.peripherals.touchpad natural-scroll false
 gsettings set org.gnome.desktop.peripherals.mouse natural-scroll false
 
+# f.lux / redshift
 gsettings set org.gnome.settings-daemon.plugins.color night-light-schedule-automatic false
 gsettings set org.gnome.settings-daemon.plugins.color night-light-enabled true
 gsettings set org.gnome.settings-daemon.plugins.color night-light-schedule-from '22.0'
 gsettings set org.gnome.settings-daemon.plugins.color night-light-schedule-to '8.0'
+
+# performance optimization
+gsettings set org.gnome.desktop.search-providers disabled "['org.gnome.Nautilus.desktop', 'org.gnome.Documents.desktop', 'org.gnome.Boxes.desktop', 'org.gnome.Calculator.desktop', 'org.gnome.Calendar.desktop', 'org.gnome.clocks.desktop', 'org.gnome.Software.desktop', 'org.gnome.Terminal.desktop']"
+gsettings set org.freedesktop.Tracker.Miner.Files index-recursive-directories '[]'
+gsettings set org.freedesktop.Tracker.Miner.Files index-single-directories '[]'
+gsettings set org.gnome.desktop.interface enable-animations false
 
 # Ctr+Alt+t --> gnome-terminal
 gsettings set org.gnome.settings-daemon.plugins.media-keys.custom-keybinding:/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/open-terminal/ name "'open-terminal'"
