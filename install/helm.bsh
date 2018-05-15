@@ -1,0 +1,23 @@
+#!/bin/bash
+
+WD="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"                                                    
+
+bash "${WD}/kubectl.bsh"
+
+\. "${WD}/../_resources/utils.bsh"
+
+#helmVersion=$(git-latest-release kubernetes/helm)
+helmVersion="v2.5.1"
+
+echo
+echo ">> Installing kubernetes/helm..."
+sudo rm -rf /opt/kube-helm/
+sudo mkdir /opt/kube-helm/
+cd /opt/kube-helm/
+
+sudo curl -sLO "https://kubernetes-helm.storage.googleapis.com/helm-${helmVersion}-linux-amd64.tar.gz"
+sudo tar --strip-components=1 -xf "helm-${helmVersion}-linux-amd64.tar.gz" "linux-amd64"
+
+sudo chmod +x ./helm
+sudo ln -sf /opt/kube-helm/helm /opt/share/bin/helm
+
