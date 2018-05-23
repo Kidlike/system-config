@@ -1,0 +1,10 @@
+#!/bin/bash
+
+WD="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+cd "$WD"
+
+bash nvm.bsh
+source "$HOME/.nvm/nvm.sh"
+
+npm install -g bower
+
