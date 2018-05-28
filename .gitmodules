@@ -4,3 +4,6 @@
 [submodule "_libs/gse-sound-output-device-chooser"]
 	path = _libs/gse-sound-output-device-chooser
 	url = https://github.com/kgshank/gse-sound-output-device-chooser
+[submodule "_libs/gs-extensions-drop-down-terminal"]
+	path = _libs/gs-extensions-drop-down-terminal
+	url = git@github.com:zzrough/gs-extensions-drop-down-terminal.git
