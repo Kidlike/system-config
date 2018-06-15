@@ -1,0 +1,44 @@
+#!/bin/bash
+
+set -e
+
+WD="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+
+INSTALL_DIR=/opt/postman
+SHARE_DIR=/opt/share
+
+echo "Downloading Postman..."
+curl -sL https://dl.pstmn.io/download/latest/linux64 -o postman-linux-x64.tar.gz
+
+echo "Installing Postman..."
+sudo rm -rf "${INSTALL_DIR}" 2>/dev/null
+sudo mkdir "${INSTALL_DIR}" 2>/dev/null
+sudo mv postman-linux-x64.tar.gz "${INSTALL_DIR}"
+cd "${INSTALL_DIR}"
+sudo tar --strip-components=1 -xf postman-linux-x64.tar.gz 'Postman'
+
+sudo mkdir "${SHARE_DIR}/bin" 2>/dev/null
+sudo ln -sf "${INSTALL_DIR}/Postman" "${SHARE_DIR}/bin/postman"
+
+sudo mkdir "${SHARE_DIR}/applications" 2>/dev/null
+sudo bash -c "cat > '${SHARE_DIR}/applications/postman.desktop' <<EOF
+[Desktop Entry]
+Name=Postman
+GenericName=API Development Environment
+X-GNOME-FullName=Postman API Development Environment
+Comment=Make and view REST API calls and responses
+Keywords=api;rest;
+Exec=${SHARE_DIR}/bin/postman
+Terminal=false
+Type=Application
+Icon=${INSTALL_DIR}/app/resources/app/assets/icon.png
+Categories=Development;Utilities;
+EOF"
+
+mkdir -p "${HOME}/.local/share/applications" 2>/dev/null
+ln -sf "${SHARE_DIR}/applications/postman.desktop" "${HOME}/.local/share/applications/postman.desktop"
+
+echo "OK!"
+
+set +e
+
