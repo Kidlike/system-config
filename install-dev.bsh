@@ -1,0 +1,21 @@
+#!/bin/bash
+
+WD="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+cd "$WD"
+
+export KODI_REMOTE_PORT=15634
+export SELINUX_MODE=disabled
+
+bash install-essentials.bsh
+
+bash install/docker.bsh
+bash install/ungit.bsh
+bash install/gulp.bsh
+bash install/helm.bsh
+bash install/intellij-idea.bsh
+bash install/java-dev.bsh
+bash install/kodi.bsh
+bash install/kubectl.bsh
+bash install/nvm.bsh
+bash install/bower.bsh
+

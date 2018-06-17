@@ -1,0 +1,21 @@
+#!/bin/bash
+
+WD="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+cd "$WD"
+
+export KODI_REMOTE_PORT=15634
+export SELINUX_MODE=disabled
+
+bash install-essentials.bsh
+bash install-dev.bsh
+
+bash install/clipit.bsh
+bash install/fonts.bsh
+bash install/skype.bsh
+bash install/spotify.bsh
+bash install/steam.bsh
+bash install/sublime.bsh
+bash install/tilda.bsh
+bash install/tmux.bsh
+bash install/viber.bsh
+
