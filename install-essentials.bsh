@@ -9,6 +9,4 @@ bash install/rpm-fusion.bsh
 bash install/apps.bsh
 bash config/system.bsh
 bash config/gnome3.bsh
-#bash install/java-dev.bsh
-#bash install/intellij-idea.bsh
-
+bash config/limits.bsh
