@@ -1,0 +1,46 @@
+#!/bin/bash
+
+WD="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+
+pam_limit_matcher='^session.*pam_limits.so$'
+
+if [ $(egrep -c "$pam_limit_matcher" /etc/pam.d/login) -eq 1 ]; then
+        sudo sed -i "s/${pam_limit_matcher}/session    required     pam_limits.so/g" /etc/pam.d/login
+elif [ $(egrep -c "$pam_limit_matcher" /etc/pam.d/login) -eq 0 ]; then
+        echo 'session    required     pam_limits.so' | sudo tee -a /etc/pam.d/login
+else
+        echo "Could not enforce pam_limits.so. Exiting..."
+        return 1
+fi
+
+# figure out next available sysctl file
+nextNumber=99
+while [ -r /etc/sysctl.d/$nextNumber-sysctl.conf ]; do
+        nextNumber=$(($nextNumber - 1))
+done
+sysctlConfName="${nextNumber}-sysctl.conf"
+
+for ctl in `cat $WD/../_resources/limits/sysctl.conf`; do
+        # set to running session
+        sudo sysctl -w $ctl
+
+        # persist to disk
+        key=$(echo $ctl | cut -d\= -f1)
+        replaced=0
+        for sysctl in `grep -Hnrc $key /etc/sysctl.d/`; do
+                file=$(echo $sysctl | cut -d\: -f1)
+                count=$(echo $sysctl | cut -d\: -f2)
+                if [ $count -ge 1 ]; then
+                        replaced=1
+                        sudo sed -i "s/$key.*/$ctl/g" $file
+                fi
+        done
+        if [ $replaced -eq 0 ]; then
+                echo $ctl | sudo tee -a /etc/sysctl.d/$sysctlConfName
+        fi
+done
+
+sudo sed -Ei 's/^\*[ \t]*soft[ \t]*nofile.*/*                soft    nofile          4096/g' /etc/security/limits.conf
+sudo sed -Ei 's/^\*[ \t]*hard[ \t]*nofile.*/*                hard    nofile          16384/g' /etc/security/limits.conf
+sudo sed -Ei 's/^\*[ \t]*-[ \t]*sigpending.*/*                -       sigpending      125230/g' /etc/security/limits.conf
+
