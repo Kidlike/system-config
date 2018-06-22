@@ -10,6 +10,7 @@ bash install-dev.bsh
 
 bash install/skype.bsh
 bash install/spotify.bsh
+bash install/slack.bsh
 bash install/steam.bsh
 bash install/viber.bsh
 
