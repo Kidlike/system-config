@@ -1,0 +1,13 @@
+#!/bin/bash
+
+WD="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+
+FLATPACK_PACKAGE=com.slack.Slack
+
+sudo dnf install -y flatpak libappindicator
+
+flatpak info ${FLATPACK_PACKAGE} >/dev/null
+if [ $? -ne 0 ]; then
+	flatpak install -y --from https://flathub.org/repo/appstream/${FLATPACK_PACKAGE}.flatpakref
+fi
+
