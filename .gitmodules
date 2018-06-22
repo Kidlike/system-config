@@ -4,3 +4,6 @@
 [submodule "_libs/gse-sound-output-device-chooser"]
 	path = _libs/gse-sound-output-device-chooser
 	url = https://github.com/kgshank/gse-sound-output-device-chooser
+[submodule "_libs/pixel-saver"]
+	path = _libs/pixel-saver
+	url = git@github.com:jhasse/gnome-shell-extension-pixel-saver-ng.git
