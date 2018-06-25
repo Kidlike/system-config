@@ -58,8 +58,10 @@ echo ">> Installing extensions from sources..."
 cd "${WD}"
 mkdir -p "${HOME}/.local/share/gnome-shell/extensions/" 2>/dev/null
 
-rm -rf "${HOME}/.local/share/gnome-shell/extensions/pixel-saver@deadalnix.me"
-ln -sf "$(realpath ../_libs/pixel-saver/pixel-saver@deadalnix.me)" "${HOME}/.local/share/gnome-shell/extensions/pixel-saver@deadalnix.me"
+#rm -rf "${HOME}/.local/share/gnome-shell/extensions/pixel-saver@deadalnix.me"
+#ln -sf "$(realpath ../_libs/pixel-saver/pixel-saver@deadalnix.me)" "${HOME}/.local/share/gnome-shell/extensions/pixel-saver@deadalnix.me"
+
+make -C "../_libs/no-title-bar/" install
 
 rm -rf "${HOME}/.local/share/gnome-shell/extensions/sound-output-device-chooser@kgshank.net"
 ln -sf "$(realpath ../_libs/gse-sound-output-device-chooser/sound-output-device-chooser@kgshank.net)" "${HOME}/.local/share/gnome-shell/extensions/sound-output-device-chooser@kgshank.net"
@@ -81,9 +83,13 @@ gsettings set org.gnome.shell.extensions.dash-to-dock shift-click-action 'launch
 
 echo
 echo ">> Enabling gnome-shell-extensions..."
+gnome-shell-extension-tool -e 'no-title-bar@franglais125.gmail.com'
 gnome-shell-extension-tool -e $(\ls -d /usr/share/gnome-shell/extensions/pomodoro\@* | rev | cut -d\/ -f 1 | rev)
 gnome-shell-extension-tool -e $(\ls -d /usr/share/gnome-shell/extensions/apps-menu\@* | rev | cut -d\/ -f 1 | rev)
 gnome-shell-extension-tool -e $(\ls -d /usr/share/gnome-shell/extensions/places-menu\@* | rev | cut -d\/ -f 1 | rev)
 gnome-shell-extension-tool -e $(\ls -d /usr/share/gnome-shell/extensions/dash-to-dock\@* | rev | cut -d\/ -f 1 | rev)
-gnome-shell-extension-tool -e 'pixel-saver@deadalnix.me'
+gnome-shell-extension-tool -d 'pixel-saver@deadalnix.me'
+#gnome-shell-extension-tool -d 'sound-output-device-chooser@kgshank.net'
+#gnome-shell-extension-tool -e 'pixel-saver@deadalnix.me'
 gnome-shell-extension-tool -e 'sound-output-device-chooser@kgshank.net'
+
