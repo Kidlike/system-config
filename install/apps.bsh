@@ -2,4 +2,4 @@
 
 WD="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
-sudo dnf install -y htop chromium firewall-config transmission vlc dconf-editor gnome-tweak-tool gimp pwgen inxi vim vim-X11 meld guake xclip gconf-editor rxvt-unicode screenfetch
+sudo dnf install -y htop chromium firewall-config transmission vlc dconf-editor gnome-tweak-tool gimp pwgen inxi vim vim-X11 meld guake xclip gconf-editor rxvt-unicode screenfetch chromium-libs-media-freeworld
