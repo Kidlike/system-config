@@ -4,12 +4,28 @@ WD="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
 mkdir ~/.fonts/ 2>/dev/null
 cd ~/.fonts/
+downloading=0
 
 if [ ! -r codeface-fonts.tar.xz ]; then
+	downloading=1
 	echo ">> Downloading fonts..."
 	curl -OLs https://github.com/chrissimpkins/codeface/releases/download/font-collection/codeface-fonts.tar.xz
 fi
 
+if [ ! -r SourceCodePro.zip ]; then
+	if [ $downloading -eq 0 ]; then
+		echo ">> Downloading fonts..."
+	fi
+	curl -OLs https://github.com/ryanoasis/nerd-fonts/releases/download/v2.0.0/SourceCodePro.zip
+fi
+
 echo ">> Installing fonts..."
+
+# all
 tar --strip-components=1 -xf codeface-fonts.tar.xz fonts
+
+# nerd-fonts/SourceCodePro
+rm -rf ./nerd-fonts/source-code-pro/ 2>/dev/null
+mkdir -p ./nerd-fonts/source-code-pro/ 2>/dev/null
+unzip -q SourceCodePro.zip -d ./nerd-fonts/source-code-pro/
 
