@@ -14,6 +14,7 @@ gsettings set org.gnome.desktop.calendar show-weekdate true
 gsettings set org.gnome.desktop.wm.preferences button-layout 'appmenu:minimize,maximize,close'
 gsettings set org.gnome.desktop.wm.preferences titlebar-font 'Comfortaa Bold 11'
 gsettings set org.gnome.settings-daemon.plugins.xsettings antialiasing 'rgba'
+gsettings set org.gnome.desktop.wm.keybindings show-desktop "['<Super>d']"
 
 # functional
 gsettings set org.gnome.shell.app-switcher current-workspace-only true
