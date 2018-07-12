@@ -1,0 +1,12 @@
+#!/bin/bash
+
+OOPS_CONF=/etc/abrt/plugins/oops.conf
+
+if [ "$(egrep -c '^DropNotReportableOopses' ${OOPS_CONF})" == 0 ]; then
+        echo "Apply settings for $OOPS_CONF... DropNotReportableOopses = yes"
+        echo "DropNotReportableOopses = yes" | sudo tee -a $OOPS_CONF
+else
+        echo "Apply settings for $OOPS_CONF... DropNotReportableOopses = yes"
+        sudo sed -i 's/^DropNotReportableOopses.*/DropNotReportableOopses = yes/g' $OOPS_CONF
+fi
+
