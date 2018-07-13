@@ -1,0 +1,30 @@
+#!/bin/bash
+
+WD="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+
+SOURCE_XKB="$WD/../_resources/xkb"
+TARGET_XKB="/usr/share/X11/xkb/"
+RULESET="evdev"
+RULEGROUP="kinesis"
+RULENAME="menu_returns"
+
+echo ">> Installing custom XKB rule $RULESET:$RULEGROUP:$RULENAME..."
+sudo cp $SOURCE_XKB/symbols/${RULEGROUP} $TARGET_XKB/symbols/
+
+if [ $(grep -c "${RULEGROUP}:${RULENAME}" "$TARGET_XKB/rules/${RULESET}") -eq 0 ]; then
+        insertToLine=$(egrep -n '![ ]+option[ 	]+=[ 	]+symbols$' "$TARGET_XKB/rules/${RULESET}" | cut -d\: -f1)
+
+        textToInsert="\ \ ${RULEGROUP}:${RULENAME}	=	+${RULEGROUP}(${RULENAME})"
+        sudo sed -i --follow-symlinks "${insertToLine}a${textToInsert}" "$TARGET_XKB/rules/${RULESET}"
+fi
+
+if [ $(grep -c "${RULEGROUP}:${RULENAME}" "$TARGET_XKB/rules/${RULESET}.lst") -eq 0 ]; then
+        insertToLine=$(egrep -n '![ ]+option$' "$TARGET_XKB/rules/${RULESET}.lst" | cut -d\: -f1)
+
+        textToInsert="\ \ ${RULEGROUP}:${RULENAME}    Kinesis - Menu as Return"
+        sudo sed -i --follow-symlinks "${insertToLine}a${textToInsert}" "$TARGET_XKB/rules/${RULESET}.lst"
+
+        textToInsert="\ \ ${RULEGROUP}    Kinesis Customizations"
+        sudo sed -i --follow-symlinks "${insertToLine}a${textToInsert}" "$TARGET_XKB/rules/${RULESET}.lst"
+fi
+

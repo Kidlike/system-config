@@ -19,7 +19,7 @@ gsettings set org.gnome.desktop.wm.keybindings show-desktop "['<Super>d']"
 # functional
 gsettings set org.gnome.shell.app-switcher current-workspace-only true
 gsettings set org.gnome.desktop.input-sources sources "[('xkb', 'us'), ('xkb', 'gr')]"
-gsettings set org.gnome.desktop.input-sources xkb-options "['grp:shift_caps_toggle']"
+gsettings set org.gnome.desktop.input-sources xkb-options "['grp:shift_caps_toggle', 'kinesis:menu_returns']"
 gsettings set org.gnome.desktop.peripherals.touchpad natural-scroll false
 gsettings set org.gnome.desktop.peripherals.mouse natural-scroll false
 
