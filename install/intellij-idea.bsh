@@ -6,11 +6,16 @@ INSTALL_DIR=/opt/intellij
 SHARE_DIR=/opt/share
 TMP_DIR=${HOME}/.cache/install-intellij-idea-latest
 
+# dependencies
+echo
+echo ">> Installing dependencies for installer (xmlstarlet)"
 sudo dnf install -y xmlstarlet
 
+# download
 mkdir "$TMP_DIR" 2>/dev/null
 cd "$TMP_DIR"
-echo "Retrieving versions metadata..."
+echo
+echo ">> Retrieving IntelliJ versions metadata"
 curl -s https://www.jetbrains.com/updates/updates.xml -o ij.xml
 versionTuple=$(xmlstarlet sel -t -m "/products/product[@name='IntelliJ IDEA']/channel[@id='IDEA_Release']/build" -v '@version' -o ':' -v '@fullNumber' -n ij.xml 2>/dev/null | sort -V | tail -1)
 version=$(echo $versionTuple | cut -d\: -f1)
@@ -21,26 +26,43 @@ if [ -z "$version" ]; then
 	exit 1
 fi
 
+# validate
 name=ideaIU-${version}.tar.gz
 rm -f !\($name\)
 [ ! -r $name ] && wget https://download.jetbrains.com/idea/$name
 wget https://download.jetbrains.com/idea/${name}.sha256 -O ${name}.sha256
-echo 'Validating downloaded file...'
+echo
+echo '>> Validating downloaded file'
 sha256sum -c ${name}.sha256
 if [ $? -ne 0 ]; then
 	echo "Corrupted file: ${name}"
 	exit 1
 fi
 
-sudo mkdir "${INSTALL_DIR}" 2>/dev/null
 
+# install
 echo
-echo "Installing: '${INSTALL_DIR}/idea-IU-${versionNumber}'..."
+echo ">> Installing: '${INSTALL_DIR}/idea-IU-${versionNumber}'"
+sudo mkdir "${INSTALL_DIR}" 2>/dev/null
 sudo rm -rf "${INSTALL_DIR}/idea-IU-${versionNumber}"
 sudo tar --directory="${INSTALL_DIR}" -xf ${name}
 sudo rm -f "${INSTALL_DIR}/latest"
 sudo ln -sf "${INSTALL_DIR}/idea-IU-${versionNumber}" "${INSTALL_DIR}/latest"
 
+# configure
+echo
+echo ">> Configuring IntelliJ"
+CONF_FILE="${INSTALL_DIR}/latest/bin/idea.properties"
+CONF_KEY='suppress.focus.stealing'
+CONF_VALUE='true'
+if [ $(grep -c "$CONF_KEY" "$CONF_FILE") -eq 0 ]; then
+	echo "${CONF_KEY}=${CONF_VALUE}" | sudo tee -a "$CONF_FILE" >/dev/null
+else
+	sudo sed -Ei "s#^${CONF_KEY}=.*#${CONF_KEY}=${CONF_KEY}#g" "$CONF_FILE"
+fi
+
+
+# share with user
 sudo mkdir "${SHARE_DIR}/bin" 2>/dev/null
 sudo ln -sf "${INSTALL_DIR}/latest/bin/idea.sh" "${SHARE_DIR}/bin/intellij-idea"
 
@@ -59,9 +81,7 @@ EOF"
 
 ln -sf "${SHARE_DIR}/applications/intellij-idea.desktop" "${HOME}/.local/share/applications/intellij-idea.desktop"
 
-# TODO conditionally add to ~/.bashrc
-# PATH=$PATH:/opt/share/bin
-
+# done
 echo
 echo 'Installation finished!'
 echo
