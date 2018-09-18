@@ -1,16 +1,32 @@
 #!/bin/bash
 
-# TODO check and store installed version
-
 WD="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
+KUBE_VERSION=${KUBE_VERSION:-'v1.10.2'}
+INST_DIR=/opt/kubectl
+TMP_DIR=${HOME}/.cache/install-kubectl-latest
+
+# download
+mkdir "$TMP_DIR" 2>/dev/null
+cd "$TMP_DIR"
+echo
+if [ ! -r kubectl-${KUBE_VERSION} ]; then
+  echo "Downloading kubectl-${KUBE_VERSION}..."
+# curl -sLO https://storage.googleapis.com/kubernetes-release/release/$(curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt)/bin/linux/amd64/kubectl
+  curl -s https://storage.googleapis.com/kubernetes-release/release/${KUBE_VERSION}/bin/linux/amd64/kubectl -o kubectl-${KUBE_VERSION}
+fi
+
+# install
 echo ">> Installing kubectl..."
-sudo rm -rf /opt/kubectl/
-sudo mkdir /opt/kubectl/
-cd /opt/kubectl/
+sudo rm -rf ${INST_DIR}
+sudo mkdir ${INST_DIR}
+cd ${INST_DIR}
 
-sudo curl -sLO https://storage.googleapis.com/kubernetes-release/release/$(curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt)/bin/linux/amd64/kubectl
-
+sudo cp ${TMP_DIR}/kubectl-${KUBE_VERSION} ./kubectl
 sudo chmod +x ./kubectl
-sudo ln -sf /opt/kubectl/kubectl /opt/share/bin/kubectl
+sudo ln -sf ${INST_DIR}/kubectl /opt/share/bin/kubectl
+
+
+# cleanup
+find ${TMP_DIR} -type f ! -name "*${KUBE_VERSION}*" -delete
 

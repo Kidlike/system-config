@@ -7,3 +7,6 @@
 [submodule "_libs/no-title-bar"]
 	path = _libs/no-title-bar
 	url = git@github.com:franglais125/no-title-bar.git
+[submodule "_libs/kubectx"]
+	path = _libs/kubectx
+	url = git@github.com:ahmetb/kubectx.git

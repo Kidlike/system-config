@@ -1,0 +1,20 @@
+#!/bin/bash
+
+INST_DIR=/opt/kubectx
+
+WD="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+
+echo ">> Installing kubectx..."
+sudo rm -rf ${INST_DIR}
+sudo mkdir ${INST_DIR}
+
+sudo cp $WD/../_libs/kubectx/kubectx ${INST_DIR}/
+sudo cp $WD/../_libs/kubectx/kubens ${INST_DIR}/
+sudo chmod +x ${INST_DIR}/kubectx
+sudo chmod +x ${INST_DIR}/kubens
+
+sudo ln -sf ${INST_DIR}/kubectx /opt/share/bin/kubectx
+sudo ln -sf ${INST_DIR}/kubens /opt/share/bin/kubens
+
+sudo cp $WD/../_libs/kubectx/completion/kubectx.bash /etc/bash_completion.d/kubectx
+
