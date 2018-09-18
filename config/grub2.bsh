@@ -1,30 +1,22 @@
 #!/bin/bash
 
+GRUB_FILE=/etc/default/grub
+
 WD="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+\. "${WD}/../_resources/utils.bsh"
 
 if [ -z "$GRUB2_BACKGROUND" ]; then
-	echo "WARN: Did not find 'GRUB2_BACKGROUND' env var. Will not set grub background."
+  echo "WARN: Did not find 'GRUB2_BACKGROUND' env var. Will not set grub background."
 elif [ ! -r "$GRUB2_BACKGROUND" ]; then
-	echo "Could not read '$GRUB2_BACKGROUND'"
-	exit 1
+  echo "Could not read '$GRUB2_BACKGROUND'"
+  exit 1
 fi
 
 command -v xdpyinfo >/dev/null 2>&1
 if [ $? -ne 0 ]; then
-	echo "Required dependency not found: \`xdpyinfo'"
-	exit 1
+  echo "Required dependency not found: \`xdpyinfo'"
+  exit 1
 fi
-
-function ammend-grub() {
-	local key=$1
-	local value=$2
-
-        if [ $(grep -c "$key" /etc/default/grub) -eq 0 ]; then
-                echo "${key}=\"${value}\"" | sudo tee -a /etc/default/grub >/dev/null
-        else
-                sudo sed -Ei "s#^${key}=.*#${key}=\"${value}\"#g" /etc/default/grub
-        fi
-}
 
 echo ">> Installing dependencies (grub2-breeze-theme, ImageMagick)..."
 echo
@@ -34,17 +26,17 @@ resolution=$(xdpyinfo | awk '/dimensions/{print $2}')
 resolutionY=$(echo $resolution | cut -d\x -f2)
 
 if [ -r "$GRUB2_BACKGROUND" ]; then
-	imageResolution=$(identify -format "%wx%h" $GRUB2_BACKGROUND)
-	if [ "$imageResolution" != "$resolution" ]; then
-		echo "ERROR: Image size doesn't match screen size"
-		exit 1
-	fi
+  imageResolution=$(identify -format "%wx%h" $GRUB2_BACKGROUND)
+  if [ "$imageResolution" != "$resolution" ]; then
+    echo "ERROR: Image size doesn't match screen size"
+    exit 1
+  fi
 fi
 
-ammend-grub GRUB_TIMEOUT ${GRUB_TIMEOUT:=5}
-ammend-grub GRUB_TERMINAL_OUTPUT ${GRUB_TERMINAL_OUTPUT:=gfxterm}
-ammend-grub GRUB_GFXMODE ${GRUB_GFXMODE:=auto}
-ammend-grub GRUB_THEME /boot/grub2/themes/breeze/theme.txt
+ammend-property ${GRUB_FILE} GRUB_TIMEOUT = "\"${GRUB_TIMEOUT:=5}\""
+ammend-property ${GRUB_FILE} GRUB_TERMINAL_OUTPUT = "\"${GRUB_TERMINAL_OUTPUT:=gfxterm}\""
+ammend-property ${GRUB_FILE} GRUB_GFXMODE = "\"${GRUB_GFXMODE:=auto}\""
+ammend-property ${GRUB_FILE} GRUB_THEME = '"/boot/grub2/themes/breeze/theme.txt"'
 
 
 echo
@@ -59,26 +51,26 @@ sudo rm -rf $themeDir
 sudo cp -pr /boot/grub2/themes/breeze ${themeDir} 2>/dev/null
 
 if [ $resolutionY -eq 2160 ]; then
-	sudo grub2-mkfont --output=${themeDir}/not-courier-sans-28.pf2 --size=28 .cache/fonts/not-courier-sans/NotCourierSans.otf
-	sudo grub2-mkfont --output=${themeDir}/not-courier-sans-32.pf2 --size=32 .cache/fonts/not-courier-sans/NotCourierSans.otf
-	sudo grub2-mkfont --output=${themeDir}/not-courier-sans-bold-32.pf2 --size=32 .cache/fonts/not-courier-sans/NotCourierSans-Bold.otf
-	sudo cp ../_resources/grub2/theme-2160p.txt ${themeDir}/theme.txt
+  sudo grub2-mkfont --output=${themeDir}/not-courier-sans-28.pf2 --size=28 .cache/fonts/not-courier-sans/NotCourierSans.otf
+  sudo grub2-mkfont --output=${themeDir}/not-courier-sans-32.pf2 --size=32 .cache/fonts/not-courier-sans/NotCourierSans.otf
+  sudo grub2-mkfont --output=${themeDir}/not-courier-sans-bold-32.pf2 --size=32 .cache/fonts/not-courier-sans/NotCourierSans-Bold.otf
+  sudo cp ../_resources/grub2/theme-2160p.txt ${themeDir}/theme.txt
 elif [ $resolutionY -eq 768 ]; then
-	sudo grub2-mkfont --output=${themeDir}/not-courier-sans-9.pf2 --size=9 .cache/fonts/not-courier-sans/NotCourierSans.otf
-	sudo grub2-mkfont --output=${themeDir}/not-courier-sans-11.pf2 --size=11 .cache/fonts/not-courier-sans/NotCourierSans.otf
-	sudo grub2-mkfont --output=${themeDir}/not-courier-sans-bold-11.pf2 --size=11 .cache/fonts/not-courier-sans/NotCourierSans-Bold.otf
-	sudo cp ../_resources/grub2/theme-768p.txt ${themeDir}/theme.txt
+  sudo grub2-mkfont --output=${themeDir}/not-courier-sans-9.pf2 --size=9 .cache/fonts/not-courier-sans/NotCourierSans.otf
+  sudo grub2-mkfont --output=${themeDir}/not-courier-sans-11.pf2 --size=11 .cache/fonts/not-courier-sans/NotCourierSans.otf
+  sudo grub2-mkfont --output=${themeDir}/not-courier-sans-bold-11.pf2 --size=11 .cache/fonts/not-courier-sans/NotCourierSans-Bold.otf
+  sudo cp ../_resources/grub2/theme-768p.txt ${themeDir}/theme.txt
 else
-	sudo grub2-mkfont --output=${themeDir}/not-courier-sans-14.pf2 --size=14 .cache/fonts/not-courier-sans/NotCourierSans.otf
-	sudo grub2-mkfont --output=${themeDir}/not-courier-sans-16.pf2 --size=16 .cache/fonts/not-courier-sans/NotCourierSans.otf
-	sudo grub2-mkfont --output=${themeDir}/not-courier-sans-bold-16.pf2 --size=16 .cache/fonts/not-courier-sans/NotCourierSans-Bold.otf
-	sudo cp ../_resources/grub2/theme-1080p.txt ${themeDir}/theme.txt
+  sudo grub2-mkfont --output=${themeDir}/not-courier-sans-14.pf2 --size=14 .cache/fonts/not-courier-sans/NotCourierSans.otf
+  sudo grub2-mkfont --output=${themeDir}/not-courier-sans-16.pf2 --size=16 .cache/fonts/not-courier-sans/NotCourierSans.otf
+  sudo grub2-mkfont --output=${themeDir}/not-courier-sans-bold-16.pf2 --size=16 .cache/fonts/not-courier-sans/NotCourierSans-Bold.otf
+  sudo cp ../_resources/grub2/theme-1080p.txt ${themeDir}/theme.txt
 fi
 
-ammend-grub GRUB_THEME ${themeDir}/theme.txt
+ammend-property ${GRUB_FILE} GRUB_THEME = "\"${themeDir}/theme.txt\""
 
 if [ -r "$GRUB2_BACKGROUND" ]; then
-	sudo cp "$GRUB2_BACKGROUND" ${themeDir}/background.png
+  sudo cp "$GRUB2_BACKGROUND" ${themeDir}/background.png
 fi
 
 echo

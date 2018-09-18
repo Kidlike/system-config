@@ -1,6 +1,7 @@
 #!/bin/bash
 
 WD="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+\. "${WD}/../_resources/utils.bsh"
 
 INSTALL_DIR=/opt/intellij
 SHARE_DIR=/opt/share
@@ -32,7 +33,7 @@ rm -f !\($name\)
 [ ! -r $name ] && wget https://download.jetbrains.com/idea/$name
 wget https://download.jetbrains.com/idea/${name}.sha256 -O ${name}.sha256
 echo
-echo '>> Validating downloaded file'
+echo ">> Validating downloaded file: ${TMP_DIR}/$name"
 sha256sum -c ${name}.sha256
 if [ $? -ne 0 ]; then
 	echo "Corrupted file: ${name}"
@@ -52,15 +53,10 @@ sudo ln -sf "${INSTALL_DIR}/idea-IU-${versionNumber}" "${INSTALL_DIR}/latest"
 # configure
 echo
 echo ">> Configuring IntelliJ"
-CONF_FILE="${INSTALL_DIR}/latest/bin/idea.properties"
-CONF_KEY='suppress.focus.stealing'
-CONF_VALUE='true'
-if [ $(grep -c "$CONF_KEY" "$CONF_FILE") -eq 0 ]; then
-	echo "${CONF_KEY}=${CONF_VALUE}" | sudo tee -a "$CONF_FILE" >/dev/null
-else
-	sudo sed -Ei "s#^${CONF_KEY}=.*#${CONF_KEY}=${CONF_KEY}#g" "$CONF_FILE"
-fi
-
+ammend-property "${INSTALL_DIR}/latest/bin/idea.properties" suppress.focus.stealing = true
+ammend-property "${INSTALL_DIR}/latest/bin/idea64.vmoptions" '-Xms' '' '256m'
+ammend-property "${INSTALL_DIR}/latest/bin/idea64.vmoptions" '-Xmx' '' '2048m'
+ammend-property "${INSTALL_DIR}/latest/bin/idea64.vmoptions" '-XX:ReservedCodeCacheSize' = '512m'
 
 # share with user
 sudo mkdir "${SHARE_DIR}/bin" 2>/dev/null
@@ -80,6 +76,11 @@ Keywords=intellij;idea;
 EOF"
 
 ln -sf "${SHARE_DIR}/applications/intellij-idea.desktop" "${HOME}/.local/share/applications/intellij-idea.desktop"
+
+
+# cleanup
+find ${TMP_DIR} -type f ! -name "*${version}*" -delete
+
 
 # done
 echo
