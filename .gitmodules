@@ -10,3 +10,6 @@
 [submodule "_libs/kubectx"]
 	path = _libs/kubectx
 	url = git@github.com:ahmetb/kubectx.git
+[submodule "_libs/ansible-completion"]
+	path = _libs/ansible-completion
+	url = git@github.com:dysosmus/ansible-completion.git
