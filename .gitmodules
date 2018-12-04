@@ -13,3 +13,6 @@
 [submodule "_libs/ansible-completion"]
 	path = _libs/ansible-completion
 	url = git@github.com:dysosmus/ansible-completion.git
+[submodule "_libs/cpufreq"]
+	path = _libs/cpufreq
+	url = git@github.com:konkor/cpufreq.git
