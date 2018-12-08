@@ -1,0 +1,19 @@
+#!/bin/bash
+
+KOPS_VERSION=${KOPS_VERSION:-'1.7.1'}
+
+WD="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+# bash "$WD/kubectl.bsh"
+
+echo ">> Installing kops..."
+sudo rm -rf /opt/kops/
+sudo mkdir /opt/kops/
+cd /opt/kops/
+
+# sudo curl -LO https://github.com/kubernetes/kops/releases/download/$(curl -s https://api.github.com/repos/kubernetes/kops/releases/latest | grep tag_name | cut -d '"' -f 4)/kops-linux-amd64
+sudo curl -LO https://github.com/kubernetes/kops/releases/download/${KOPS_VERSION}/kops-linux-amd64
+sudo chmod +x kops-linux-amd64
+sudo ln -sf /opt/kops/kops-linux-amd64 /opt/share/bin/kops
+
+(/opt/share/bin/kops completion bash | sudo tee /etc/bash_completion.d/kops)>/dev/null
+

@@ -1,0 +1,8 @@
+#!/bin/bash
+
+WD="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+
+echo ">> Installing ansible"
+sudo dnf install ansible
+
+sudo cp ${WD}/../_libs/ansible-completion/ansible-*.bash /etc/bash_completion.d/

@@ -67,6 +67,13 @@ make -C "../_libs/no-title-bar/" install
 rm -rf "${HOME}/.local/share/gnome-shell/extensions/sound-output-device-chooser@kgshank.net"
 ln -sf "$(realpath ../_libs/gse-sound-output-device-chooser/sound-output-device-chooser@kgshank.net)" "${HOME}/.local/share/gnome-shell/extensions/sound-output-device-chooser@kgshank.net"
 
+### cpufreq
+sudo dnf install kernel-tools
+mkdir -p "${HOME}/.local/share/gnome-shell/extensions/cpufreq@konkor" 2>/dev/null
+cp -r ${WD}/../_libs/cpufreq/* "${HOME}/.local/share/gnome-shell/extensions/cpufreq@konkor/"
+chmod 0755 "${HOME}/.local/share/gnome-shell/extensions/cpufreq@konkor/cpufreqctl"
+sudo "${HOME}/.local/share/gnome-shell/extensions/cpufreq@konkor/cpufreqctl" install
+
 
 # Configure gnome-shell-extension: dash-to-dock
 gsettings set org.gnome.shell.extensions.dash-to-dock extend-height true

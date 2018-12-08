@@ -7,3 +7,12 @@
 [submodule "_libs/no-title-bar"]
 	path = _libs/no-title-bar
 	url = git@github.com:franglais125/no-title-bar.git
+[submodule "_libs/kubectx"]
+	path = _libs/kubectx
+	url = git@github.com:ahmetb/kubectx.git
+[submodule "_libs/ansible-completion"]
+	path = _libs/ansible-completion
+	url = git@github.com:dysosmus/ansible-completion.git
+[submodule "_libs/cpufreq"]
+	path = _libs/cpufreq
+	url = git@github.com:konkor/cpufreq.git

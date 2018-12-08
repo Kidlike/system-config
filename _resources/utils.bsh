@@ -1,8 +1,22 @@
 #!/bin/bash
 
-git-latest-release() {                               
-        curl --silent "https://api.github.com/repos/$1/releases/latest" |                                 
-                grep '"tag_name":' |                 
-                sed -E 's/.*"([^"]+)".*/\1/'         
+function git-latest-release() {
+  curl --silent "https://api.github.com/repos/$1/releases/latest" | {
+    grep '"tag_name":'
+  } | {
+    sed -E 's/.*"([^"]+)".*/\1/'
+  }
 }
 
+function ammend-property() {
+  local file="$1"
+  local key="$2"
+  local separator="$3"
+  local value="$4"
+
+  if [ $(grep -c "$key" "$file") -eq 0 ]; then
+    echo "${key}${separator}${value}" | sudo tee -a "$file" >/dev/null
+  else
+    sudo sed -Ei "s#^${key}${separator}.*#${key}${separator}${value}#g" "$file"
+  fi
+}
