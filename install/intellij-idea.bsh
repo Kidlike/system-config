@@ -12,7 +12,7 @@ echo ">> Installing dependencies for installer (xmlstarlet)"
 sudo dnf install -y xmlstarlet
 
 # download
-mkdir "$TMP_DIR" 2>/dev/null
+mkdir -p "$TMP_DIR" 2>/dev/null
 cd "$TMP_DIR"
 echo
 echo ">> Retrieving IntelliJ versions metadata"
@@ -43,7 +43,7 @@ fi
 # install
 echo
 echo ">> Installing: '${INSTALL_DIR}/idea-IU-${versionNumber}'"
-sudo mkdir "${INSTALL_DIR}" 2>/dev/null
+sudo mkdir -p "${INSTALL_DIR}" 2>/dev/null
 sudo rm -rf "${INSTALL_DIR}/idea-IU-${versionNumber}"
 sudo tar --directory="${INSTALL_DIR}" -xf ${name}
 sudo rm -f "${INSTALL_DIR}/latest"
@@ -63,10 +63,10 @@ fi
 
 
 # share with user
-sudo mkdir "${SHARE_DIR}/bin" 2>/dev/null
+sudo mkdir -p "${SHARE_DIR}/bin" 2>/dev/null
 sudo ln -sf "${INSTALL_DIR}/latest/bin/idea.sh" "${SHARE_DIR}/bin/intellij-idea"
 
-sudo mkdir "${SHARE_DIR}/applications" 2>/dev/null
+sudo mkdir -p "${SHARE_DIR}/applications" 2>/dev/null
 sudo bash -c "cat > '${SHARE_DIR}/applications/intellij-idea.desktop' <<EOF
 [Desktop Entry]
 Type=Application

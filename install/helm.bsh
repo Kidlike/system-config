@@ -12,7 +12,7 @@ helmVersion="v2.5.1"
 echo
 echo ">> Installing kubernetes/helm..."
 sudo rm -rf /opt/kube-helm/
-sudo mkdir /opt/kube-helm/
+sudo mkdir -p /opt/kube-helm/
 cd /opt/kube-helm/
 
 sudo curl -sLO "https://kubernetes-helm.storage.googleapis.com/helm-${helmVersion}-linux-amd64.tar.gz"

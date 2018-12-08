@@ -12,15 +12,15 @@ curl -sL https://dl.pstmn.io/download/latest/linux64 -o postman-linux-x64.tar.gz
 
 echo "Installing Postman..."
 sudo rm -rf "${INSTALL_DIR}" 2>/dev/null
-sudo mkdir "${INSTALL_DIR}" 2>/dev/null
+sudo mkdir -p "${INSTALL_DIR}" 2>/dev/null
 sudo mv postman-linux-x64.tar.gz "${INSTALL_DIR}"
 cd "${INSTALL_DIR}"
 sudo tar --strip-components=1 -xf postman-linux-x64.tar.gz 'Postman'
 
-sudo mkdir "${SHARE_DIR}/bin" 2>/dev/null
+sudo mkdir -p "${SHARE_DIR}/bin" 2>/dev/null
 sudo ln -sf "${INSTALL_DIR}/Postman" "${SHARE_DIR}/bin/postman"
 
-sudo mkdir "${SHARE_DIR}/applications" 2>/dev/null
+sudo mkdir -p "${SHARE_DIR}/applications" 2>/dev/null
 sudo bash -c "cat > '${SHARE_DIR}/applications/postman.desktop' <<EOF
 [Desktop Entry]
 Name=Postman

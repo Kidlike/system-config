@@ -2,7 +2,7 @@
 
 WD="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
-mkdir ~/.fonts/ 2>/dev/null
+mkdir -p ~/.fonts/ 2>/dev/null
 cd ~/.fonts/
 downloading=0
 

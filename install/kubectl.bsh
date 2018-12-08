@@ -6,7 +6,7 @@ WD="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
 echo ">> Installing kubectl..."
 sudo rm -rf /opt/kubectl/
-sudo mkdir /opt/kubectl/
+sudo mkdir -p /opt/kubectl/
 cd /opt/kubectl/
 
 sudo curl -sLO https://storage.googleapis.com/kubernetes-release/release/$(curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt)/bin/linux/amd64/kubectl
