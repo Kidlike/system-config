@@ -16,3 +16,6 @@
 [submodule "_libs/cpufreq"]
 	path = _libs/cpufreq
 	url = git@github.com:konkor/cpufreq.git
+[submodule "_libs/gnome-shell-extension-caffeine"]
+	path = _libs/gnome-shell-extension-caffeine
+	url = git@github.com:qunxyz/gnome-shell-extension-caffeine.git

@@ -74,6 +74,11 @@ cp -r ${WD}/../_libs/cpufreq/* "${HOME}/.local/share/gnome-shell/extensions/cpuf
 chmod 0755 "${HOME}/.local/share/gnome-shell/extensions/cpufreq@konkor/cpufreqctl"
 sudo "${HOME}/.local/share/gnome-shell/extensions/cpufreq@konkor/cpufreqctl" install
 
+### caffeine
+cd ${WD}../_libs/gnome-shell-extension-caffeine
+./build.sh
+cd ${WD}
+ln -sf "$(realpath ../_libs/gnome-shell-extension-caffeine/caffeine-plus@patapon.info)" "${HOME}/.local/share/gnome-shell/extensions/caffeine-plus@patapon.info"
 
 # Configure gnome-shell-extension: dash-to-dock
 gsettings set org.gnome.shell.extensions.dash-to-dock extend-height true
@@ -100,4 +105,5 @@ gnome-shell-extension-tool -d 'pixel-saver@deadalnix.me'
 #gnome-shell-extension-tool -d 'sound-output-device-chooser@kgshank.net'
 #gnome-shell-extension-tool -e 'pixel-saver@deadalnix.me'
 gnome-shell-extension-tool -e 'sound-output-device-chooser@kgshank.net'
+gnome-shell-extension-tool -e 'caffeine-plus@patapon.info'
 

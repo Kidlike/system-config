@@ -45,6 +45,6 @@ sudo sed -Ei 's/^\*[ \t]*hard[ \t]*nofile.*/*                hard    nofile     
 sudo sed -Ei 's/^\*[ \t]*-[ \t]*sigpending.*/*                -       sigpending      125230/g' /etc/security/limits.conf
 
 # Set cpu governor to performance
-sudo systemctl enable cpupower
-sudo systemctl start cpupower
+# sudo systemctl enable cpupower
+# sudo systemctl start cpupower
 
