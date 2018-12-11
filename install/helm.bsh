@@ -7,7 +7,7 @@ bash "${WD}/kubectl.bsh"
 \. "${WD}/../_resources/utils.bsh"
 
 #helmVersion=$(git-latest-release kubernetes/helm)
-helmVersion="v2.5.1"
+helmVersion="v2.9.1"
 
 echo
 echo ">> Installing kubernetes/helm..."
