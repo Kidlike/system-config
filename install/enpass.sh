@@ -52,7 +52,7 @@ function installEnpass () {
     sudo rm -rf "${INSTALL_DIR}" 2>/dev/null
     sudo mkdir -p ${INSTALL_DIR} 2>/dev/null
 
-    ./enpass-${version}-installer &
+    ${TMP_DIR}/enpass-${version}-installer &
     local pid=$!
 
     # wait for window
