@@ -14,7 +14,7 @@ function ammend-property() {
   local separator="$3"
   local value="$4"
 
-  if [ $(grep -c "$key" "$file") -eq 0 ]; then
+  if [ $(grep -c -- "$key" "$file") == "0" ]; then
     echo "${key}${separator}${value}" | sudo tee -a "$file" >/dev/null
   else
     sudo sed -Ei "s#^${key}${separator}.*#${key}${separator}${value}#g" "$file"

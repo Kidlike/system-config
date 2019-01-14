@@ -18,7 +18,8 @@ cd "$TMP_DIR"
 echo
 echo ">> Retrieving IntelliJ versions metadata"
 curl -s https://www.jetbrains.com/updates/updates.xml -o ij.xml
-versionTuple=$(xmlstarlet sel -t -m "/products/product[@name='IntelliJ IDEA']/channel[@id='IDEA_Release']/build" -v '@version' -o ':' -v '@fullNumber' -n ij.xml 2>/dev/null | sort -V | tail -1)
+latestVersion=$(xmlstarlet sel -t -m "/products/product[@name='IntelliJ IDEA']/channel[@id='IDEA_Release']/build" -v '@version' -n ij.xml 2>/dev/null | sort -V | tail -1)
+versionTuple=$(xmlstarlet sel -t -m "/products/product[@name='IntelliJ IDEA']/channel[@id='IDEA_Release']/build[@version='${latestVersion}']" -v '@version' -o ':' -v '@fullNumber' -n ij.xml 2>/dev/null | sort -V | tail -1)
 version=$(echo $versionTuple | cut -d\: -f1)
 versionNumber=$(echo $versionTuple | cut -d\: -f2)
 
