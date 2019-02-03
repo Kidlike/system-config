@@ -7,6 +7,30 @@ INSTALL_DIR=/opt/intellij
 SHARE_DIR=/opt/share
 TMP_DIR=${HOME}/.cache/install-intellij-idea-latest
 
+function cleanupOldInstallations() {
+	local count=$(find ${INSTALL_DIR}/* -maxdepth 0 -type d | wc -l)
+	if [ $count -gt 3 ]; then
+		echo ">> Deleting older installations..."
+
+		local versionsToKeep=$(find ${INSTALL_DIR}/* -maxdepth 0 -type d | sort -V | tail -3)
+		while read d; do
+			# skip deleting if it's in use
+			if [ "$(readlink ${INSTALL_DIR}/latest)" == "$d" ]; then
+				continue
+			fi
+
+			# skip deleting if it's in the last 3
+			if [ $(echo $versionsToKeep | grep -c $d) -eq 1 ]; then
+				continue
+			fi
+
+			echo "- $d"
+			sudo rm -rf $d >/dev/null
+		done < <(find ${INSTALL_DIR}/* -maxdepth 0 -type d | sort -V)
+	fi
+}
+
+
 # dependencies
 echo
 echo ">> Installing dependencies for installer (xmlstarlet)"
@@ -18,8 +42,8 @@ cd "$TMP_DIR"
 echo
 echo ">> Retrieving IntelliJ versions metadata"
 curl -s https://www.jetbrains.com/updates/updates.xml -o ij.xml
-latestVersion=$(xmlstarlet sel -t -m "/products/product[@name='IntelliJ IDEA']/channel[@id='IDEA_Release']/build" -v '@version' -n ij.xml 2>/dev/null | sort -V | tail -1)
-versionTuple=$(xmlstarlet sel -t -m "/products/product[@name='IntelliJ IDEA']/channel[@id='IDEA_Release']/build[@version='${latestVersion}']" -v '@version' -o ':' -v '@fullNumber' -n ij.xml 2>/dev/null | sort -V | tail -1)
+latestVersion=$(xmlstarlet sel -t -m "/products/product[@name='IntelliJ IDEA']/channel[@id='IC-IU-RELEASE-licensing-RELEASE']/build" -v '@version' -n ij.xml 2>/dev/null | sort -V | tail -1)
+versionTuple=$(xmlstarlet sel -t -m "/products/product[@name='IntelliJ IDEA']/channel[@id='IC-IU-RELEASE-licensing-RELEASE']/build[@version='${latestVersion}']" -v '@version' -o ':' -v '@fullNumber' -n ij.xml 2>/dev/null | sort -V | tail -1)
 version=$(echo $versionTuple | cut -d\: -f1)
 versionNumber=$(echo $versionTuple | cut -d\: -f2)
 
@@ -82,6 +106,7 @@ ln -sf "${SHARE_DIR}/applications/intellij-idea.desktop" "${HOME}/.local/share/a
 # cleanup
 find ${TMP_DIR} -type f ! -name "*${version}*" -delete
 
+cleanupOldInstallations
 
 # done
 echo
