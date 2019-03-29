@@ -5,4 +5,5 @@ WD="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 sudo dnf install -y htop chromium firewall-config transmission \
 vlc dconf-editor gnome-tweak-tool gimp pwgen inxi vim vim-X11 \
 meld tilda xclip gconf-editor rxvt-unicode screenfetch chromium-libs-media-freeworld \
-translate-shell
+translate-shell brave-browser brave-keyring
+
