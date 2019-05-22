@@ -22,3 +22,6 @@
 [submodule "_libs/multi-monitors-add-on"]
 	path = _libs/multi-monitors-add-on
 	url = git@github.com:spin83/multi-monitors-add-on.git
+[submodule "_libs/GTKTitleBar"]
+	path = _libs/GTKTitleBar
+	url = git@github.com:unlimitedsola/GTKTitleBar.git
