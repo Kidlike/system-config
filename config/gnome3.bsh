@@ -52,7 +52,8 @@ fi
 echo
 sudo dnf install -y gnome-tweak-tool xorg-x11-utils \
 gnome-shell-extension-pomodoro gnome-shell-extension-apps-menu \
-gnome-shell-extension-places-menu gnome-shell-extension-dash-to-dock
+gnome-shell-extension-places-menu gnome-shell-extension-dash-to-dock \
+gnome-shell-extension-unite
 
 echo
 echo ">> Installing extensions from sources..."
@@ -61,11 +62,20 @@ mkdir -p "${HOME}/.local/share/gnome-shell/extensions/" 2>/dev/null
 
 #rm -rf "${HOME}/.local/share/gnome-shell/extensions/pixel-saver@deadalnix.me"
 #ln -sf "$(realpath ../_libs/pixel-saver/pixel-saver@deadalnix.me)" "${HOME}/.local/share/gnome-shell/extensions/pixel-saver@deadalnix.me"
+#make -C "../_libs/no-title-bar/" install
 
-make -C "../_libs/no-title-bar/" install
+#rm -rf "${HOME}/.local/share/gnome-shell/extensions/unite@hardpixel.eu"
+#ln -sf "$(realpath ../_libs/unite-shell/unite@hardpixel.eu)" "${HOME}/.local/share/gnome-shell/extensions/unite@hardpixel.eu"
 
-rm -rf "${HOME}/.local/share/gnome-shell/extensions/sound-output-device-chooser@kgshank.net"
-ln -sf "$(realpath ../_libs/gse-sound-output-device-chooser/sound-output-device-chooser@kgshank.net)" "${HOME}/.local/share/gnome-shell/extensions/sound-output-device-chooser@kgshank.net"
+#rm -rf "${HOME}/.local/share/gnome-shell/extensions/sound-output-device-chooser@kgshank.net"
+#ln -sf "$(realpath ../_libs/gse-sound-output-device-chooser/sound-output-device-chooser@kgshank.net)" "${HOME}/.local/share/gnome-shell/extensions/sound-output-device-chooser@kgshank.net"
+
+rm -rf "${HOME}/.local/share/gnome-shell/extensions/gtktitlebar@velitasali.github.io"
+ln -sf "$(realpath ../_libs/GTKTitleBar/gtktitlebar@velitasali.github.io)" "${HOME}/.local/share/gnome-shell/extensions/gtktitlebar@velitasali.github.io"
+
+rm -rf "${HOME}/.local/share/gnome-shell/extensions/multi-monitors-add-on@spin83"
+ln -sf "$(realpath ../_libs/multi-monitors-add-on/multi-monitors-add-on@spin83)" "${HOME}/.local/share/gnome-shell/extensions/multi-monitors-add-on@spin83"
+
 
 ### cpufreq
 sudo dnf install kernel-tools
@@ -96,14 +106,15 @@ gsettings set org.gnome.shell.extensions.dash-to-dock shift-click-action 'launch
 
 echo
 echo ">> Enabling gnome-shell-extensions..."
-gnome-shell-extension-tool -e 'no-title-bar@franglais125.gmail.com'
+gnome-shell-extension-tool -d 'pixel-saver@deadalnix.me'
+gnome-shell-extension-tool -d 'no-title-bar@franglais125.gmail.com'
+gnome-shell-extension-tool -d 'unite@hardpixel.eu'
+gnome-shell-extension-tool -d 'sound-output-device-chooser@kgshank.net'
+gnome-shell-extension-tool -e 'caffeine-plus@patapon.info'
+gnome-shell-extension-tool -e 'gtktitlebar@velitasali.github.io'
+gnome-shell-extension-tool -e 'multi-monitors-add-on@spin83'
 gnome-shell-extension-tool -e $(\ls -d /usr/share/gnome-shell/extensions/pomodoro\@* | rev | cut -d\/ -f 1 | rev)
 gnome-shell-extension-tool -e $(\ls -d /usr/share/gnome-shell/extensions/apps-menu\@* | rev | cut -d\/ -f 1 | rev)
 gnome-shell-extension-tool -e $(\ls -d /usr/share/gnome-shell/extensions/places-menu\@* | rev | cut -d\/ -f 1 | rev)
 gnome-shell-extension-tool -e $(\ls -d /usr/share/gnome-shell/extensions/dash-to-dock\@* | rev | cut -d\/ -f 1 | rev)
-gnome-shell-extension-tool -d 'pixel-saver@deadalnix.me'
-#gnome-shell-extension-tool -d 'sound-output-device-chooser@kgshank.net'
-#gnome-shell-extension-tool -e 'pixel-saver@deadalnix.me'
-gnome-shell-extension-tool -e 'sound-output-device-chooser@kgshank.net'
-gnome-shell-extension-tool -e 'caffeine-plus@patapon.info'
 

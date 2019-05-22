@@ -16,6 +16,9 @@
 [submodule "_libs/cpufreq"]
 	path = _libs/cpufreq
 	url = git@github.com:konkor/cpufreq.git
-[submodule "_libs/gnome-shell-extension-caffeine"]
-	path = _libs/gnome-shell-extension-caffeine
-	url = git@github.com:qunxyz/gnome-shell-extension-caffeine.git
+[submodule "_libs/unite-shell"]
+	path = _libs/unite-shell
+	url = git@github.com:hardpixel/unite-shell.git
+[submodule "_libs/multi-monitors-add-on"]
+	path = _libs/multi-monitors-add-on
+	url = git@github.com:spin83/multi-monitors-add-on.git
