@@ -25,3 +25,6 @@
 [submodule "_libs/GTKTitleBar"]
 	path = _libs/GTKTitleBar
 	url = git@github.com:unlimitedsola/GTKTitleBar.git
+[submodule "_libs/gnome-shell-extension-hide-app-icon"]
+	path = _libs/gnome-shell-extension-hide-app-icon
+	url = git@github.com:michael-rapp/gnome-shell-extension-hide-app-icon.git
