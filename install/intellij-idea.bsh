@@ -79,7 +79,8 @@ sudo ln -sf "${INSTALL_DIR}/idea-IU-${versionNumber}" "${INSTALL_DIR}/latest"
 echo
 echo ">> Configuring IntelliJ"
 ammend-property "${INSTALL_DIR}/latest/bin/idea.properties" suppress.focus.stealing = true
-ammend-property "${INSTALL_DIR}/latest/bin/idea64.vmoptions" '-Xms' '' '256m'
+ammend-property "${INSTALL_DIR}/latest/bin/idea.properties" idea.cycle.buffer.size = 4096
+ammend-property "${INSTALL_DIR}/latest/bin/idea64.vmoptions" '-Xms' '' '512m'
 ammend-property "${INSTALL_DIR}/latest/bin/idea64.vmoptions" '-Xmx' '' '2048m'
 ammend-property "${INSTALL_DIR}/latest/bin/idea64.vmoptions" '-XX:ReservedCodeCacheSize' = '512m'
 
