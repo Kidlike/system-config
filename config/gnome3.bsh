@@ -76,7 +76,11 @@ ln -sf "$(realpath ../_libs/GTKTitleBar/gtktitlebar@velitasali.github.io)" "${HO
 rm -rf "${HOME}/.local/share/gnome-shell/extensions/multi-monitors-add-on@spin83"
 ln -sf "$(realpath ../_libs/multi-monitors-add-on/multi-monitors-add-on@spin83)" "${HOME}/.local/share/gnome-shell/extensions/multi-monitors-add-on@spin83"
 
+### hide-app-icon
 rm -rf "${HOME}/.local/share/gnome-shell/extensions/hide-app-icon@mrapp.sourceforge.com"
+cd ${WD}/../_libs/gnome-shell-extension-hide-app-icon
+make install
+cd ${WD}
 ln -sf "$(realpath ../_libs/gnome-shell-extension-hide-app-icon/hide-app-icon@mrapp.sourceforge.com)" "${HOME}/.local/share/gnome-shell/extensions/hide-app-icon@mrapp.sourceforge.com"
 
 ### cpufreq
@@ -87,7 +91,7 @@ chmod 0755 "${HOME}/.local/share/gnome-shell/extensions/cpufreq@konkor/cpufreqct
 sudo "${HOME}/.local/share/gnome-shell/extensions/cpufreq@konkor/cpufreqctl" install
 
 ### caffeine
-cd ${WD}../_libs/gnome-shell-extension-caffeine
+cd ${WD}/../_libs/gnome-shell-extension-caffeine
 ./build.sh
 cd ${WD}
 ln -sf "$(realpath ../_libs/gnome-shell-extension-caffeine/caffeine-plus@patapon.info)" "${HOME}/.local/share/gnome-shell/extensions/caffeine-plus@patapon.info"
