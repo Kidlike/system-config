@@ -2,7 +2,9 @@
 
 WD="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
-KUBE_VERSION=${KUBE_VERSION:-'v1.10.2'}
+#KUBE_VERSION=${KUBE_VERSION:-'v1.7.10'}
+#KUBE_VERSION=${KUBE_VERSION:-'v1.10.2'}
+KUBE_VERSION=${KUBE_VERSION:-'v1.11.10'}
 INST_DIR=/opt/kubectl
 TMP_DIR=${HOME}/.cache/install-kubectl-latest
 
@@ -18,14 +20,15 @@ fi
 
 # install
 echo ">> Installing kubectl..."
-sudo rm -rf ${INST_DIR}
-sudo mkdir -p ${INST_DIR}
-cd ${INST_DIR}
-
+sudo rm -rf ${INST_DIR}/${KUBE_VERSION} 2>/dev/null
+sudo mkdir -p ${INST_DIR}/${KUBE_VERSION} 2>/dev/null
+cd ${INST_DIR}/${KUBE_VERSION}
 sudo cp ${TMP_DIR}/kubectl-${KUBE_VERSION} ./kubectl
 sudo chmod +x ./kubectl
-sudo ln -sf ${INST_DIR}/kubectl /opt/share/bin/kubectl
-
+sudo rm -f ${INST_DIR}/latest
+sudo ln -sf ${INST_DIR}/${KUBE_VERSION} ${INST_DIR}/latest
+sudo rm -f /opt/share/bin/kubectl 2>/dev/null
+sudo ln -sf ${INST_DIR}/latest/kubectl /opt/share/bin/kubectl
 
 # cleanup
 find ${TMP_DIR} -type f ! -name "*${KUBE_VERSION}*" -delete

@@ -1,23 +1,28 @@
 #!/bin/bash
 
+set -eu
+
 WD="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"                                                    
 
-bash "${WD}/kubectl.bsh"
+INST_DIR=/opt/helm
 
 \. "${WD}/../_resources/utils.bsh"
 
 #helmVersion=$(git-latest-release kubernetes/helm)
-helmVersion="v2.9.1"
+helmVersion="v3.0.3"
 
 echo
-echo ">> Installing kubernetes/helm..."
-sudo rm -rf /opt/kube-helm/
-sudo mkdir -p /opt/kube-helm/
-cd /opt/kube-helm/
+echo ">> Installing helm (for k8s)..."
+sudo rm -rf ${INST_DIR}/$helmVersion 2>/dev/null
+sudo mkdir -p ${INST_DIR}/$helmVersion 2>/dev/null
+cd ${INST_DIR}/$helmVersion
 
-sudo curl -sLO "https://kubernetes-helm.storage.googleapis.com/helm-${helmVersion}-linux-amd64.tar.gz"
+sudo curl -sLO "https://get.helm.sh/helm-${helmVersion}-linux-amd64.tar.gz"
 sudo tar --strip-components=1 -xf "helm-${helmVersion}-linux-amd64.tar.gz" "linux-amd64"
-
 sudo chmod +x ./helm
-sudo ln -sf /opt/kube-helm/helm /opt/share/bin/helm
+
+sudo rm -f ${INST_DIR}/latest
+sudo ln -sf ${INST_DIR}/$helmVersion ${INST_DIR}/latest
+sudo rm -f /opt/share/bin/helm 2>/dev/null
+sudo ln -sf ${INST_DIR}/latest/helm /opt/share/bin/helm
 

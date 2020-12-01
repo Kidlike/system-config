@@ -75,6 +75,13 @@ sudo tar --directory="${INSTALL_DIR}" -xf ${name}
 sudo rm -f "${INSTALL_DIR}/latest"
 sudo ln -sf "${INSTALL_DIR}/idea-IU-${versionNumber}" "${INSTALL_DIR}/latest"
 
+# install - replace jsch lib to support ~/.ssh/config
+jschVersion=$(find ${INSTALL_DIR}/latest/lib/ -type f -regex ".*/jsch-[0-9\.]+\.jar" | head -1 | sed -E 's/.*jsch-([0-9\.]+)\.jar/\1/')
+echo ">> Replacing jsch-${jschVersion}.jar (for ~/.ssh/config support)"
+sudo curl --silent --show-error --location \
+	https://github.com/Kidlike/jsch/releases/download/${jschVersion}-ssh-config/jsch-${jschVersion}-ssh-config.jar \
+	-o ${INSTALL_DIR}/latest/lib/jsch-${jschVersion}.jar
+
 # configure
 echo
 echo ">> Configuring IntelliJ"

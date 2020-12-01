@@ -76,6 +76,9 @@ ln -sf "$(realpath ../_libs/GTKTitleBar/gtktitlebar@velitasali.github.io)" "${HO
 rm -rf "${HOME}/.local/share/gnome-shell/extensions/multi-monitors-add-on@spin83"
 ln -sf "$(realpath ../_libs/multi-monitors-add-on/multi-monitors-add-on@spin83)" "${HOME}/.local/share/gnome-shell/extensions/multi-monitors-add-on@spin83"
 
+rm -rf "${HOME}/.local/share/gnome-shell/extensions/NordVPN_Connect@poilrouge.fr"
+ln -sf "$(realpath ../_libs/NordVPN-connect)" "${HOME}/.local/share/gnome-shell/extensions/NordVPN_Connect@poilrouge.fr"
+
 ### hide-app-icon
 rm -rf "${HOME}/.local/share/gnome-shell/extensions/hide-app-icon@mrapp.sourceforge.com"
 cd ${WD}/../_libs/gnome-shell-extension-hide-app-icon
@@ -120,6 +123,7 @@ gnome-shell-extension-tool -e 'caffeine-plus@patapon.info'
 gnome-shell-extension-tool -e 'gtktitlebar@velitasali.github.io'
 gnome-shell-extension-tool -e 'multi-monitors-add-on@spin83'
 gnome-shell-extension-tool -e 'hide-app-icon@mrapp.sourceforge.com'
+gnome-shell-extension-tool -e 'NordVPN_Connect@poilrouge.fr'
 gnome-shell-extension-tool -e $(\ls -d /usr/share/gnome-shell/extensions/pomodoro\@* | rev | cut -d\/ -f 1 | rev)
 gnome-shell-extension-tool -e $(\ls -d /usr/share/gnome-shell/extensions/apps-menu\@* | rev | cut -d\/ -f 1 | rev)
 gnome-shell-extension-tool -e $(\ls -d /usr/share/gnome-shell/extensions/places-menu\@* | rev | cut -d\/ -f 1 | rev)
