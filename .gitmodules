@@ -28,3 +28,12 @@
 [submodule "_libs/gnome-shell-extension-hide-app-icon"]
 	path = _libs/gnome-shell-extension-hide-app-icon
 	url = git@github.com:michael-rapp/gnome-shell-extension-hide-app-icon.git
+[submodule "_libs/NordVPN-connect"]
+	path = _libs/NordVPN-connect
+	url = git@github-kidlike:AlexPoilrouge/NordVPN-connect.git
+[submodule "_libs/nordvpn-linux-system-tray"]
+	path = _libs/nordvpn-linux-system-tray
+	url = git@github-kidlike:jroddev/nordvpn-linux-system-tray.git
+[submodule "_libs/NordVPNKrunner"]
+	path = _libs/NordVPNKrunner
+	url = git@github-kidlike:alex1701c/NordVPNKrunner.git
