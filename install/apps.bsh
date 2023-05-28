@@ -2,5 +2,5 @@
 
 WD="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
-sudo dnf install -y htop vlc gimp pwgen inxi vim vim-X11 meld yakuake screenfetch xclip
+sudo dnf install -y htop vlc gimp pwgen inxi vim vim-X11 meld yakuake screenfetch xclip darkman
 
