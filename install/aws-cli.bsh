@@ -1,0 +1,23 @@
+#!/bin/bash
+
+set -eu
+
+AWS_VERSION=${AWS_VERSION:-'2.18.1'}
+INST_DIR=/opt/aws-cli
+TMP_DIR=${HOME}/.cache/awscli-installer
+ZIP_FILE="${TMP_DIR}/awscli-${AWS_VERSION}.zip"
+
+# download
+mkdir -p "$TMP_DIR" 2>/dev/null
+echo
+if [ ! -r awscli-${AWS_VERSION} ]; then
+  echo "Downloading awscli-${AWS_VERSION}..."
+  curl -s https://awscli.amazonaws.com/awscli-exe-linux-x86_64-${AWS_VERSION}.zip -o ${ZIP_FILE}
+  unzip -o ${ZIP_FILE} -d ${TMP_DIR}
+fi
+
+# install
+echo ">> Installing awscli..."
+sudo ${TMP_DIR}/aws/install --bin-dir /opt/share/bin --install-dir ${INST_DIR} --update
+
+rm -rf ${TMP_DIR}

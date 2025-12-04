@@ -9,7 +9,7 @@ INST_DIR=/opt/helm
 \. "${WD}/../_resources/utils.bsh"
 
 #helmVersion=$(git-latest-release kubernetes/helm)
-helmVersion="v3.0.3"
+helmVersion="v3.14.0"
 
 echo
 echo ">> Installing helm (for k8s)..."

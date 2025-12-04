@@ -4,7 +4,7 @@ WD="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
 #KUBE_VERSION=${KUBE_VERSION:-'v1.7.10'}
 #KUBE_VERSION=${KUBE_VERSION:-'v1.10.2'}
-KUBE_VERSION=${KUBE_VERSION:-'v1.11.10'}
+KUBE_VERSION=${KUBE_VERSION:-'v1.29.8'}
 INST_DIR=/opt/kubectl
 TMP_DIR=${HOME}/.cache/install-kubectl-latest
 
